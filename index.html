@@ -11,116 +11,18 @@
 	<script src="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.js"></script>
 
 	<script type="text/javascript">
-		
+
 		var warmupApp = {
 			"bar_weight" : 45,
 			"metric" : false,
-			"exercises" : {
-				"squats" : [{
-					"sets" : "2",
-					"reps" : "5",
-					"weight" : 45
-				}, {
-					"sets" : "1",
-					"reps" : "5",
-					"multiplier" : 0.4
-				}, {
-					"sets" : "1",
-					"reps" : "3",
-					"multiplier" : 0.6
-				}, {
-					"sets" : "1",
-					"reps" : "2",
-					"multiplier" : 0.8
-				}, {
-					"sets" : "3",
-					"reps" : "5",
-					"multiplier" : 1.0
-				}],
-				"bench": [{
-					"sets" : "2",
-					"reps" : "5",
-					"weight" : 45
-				}, {
-					"sets" : "1",
-					"reps" : "5",
-					"multiplier" : 0.5
-				}, {
-					"sets" : "1",
-					"reps" : "3",
-					"multiplier" : 0.7
-				}, {
-					"sets" : "1",
-					"reps" : "2",
-					"multiplier" : 0.9
-				}, {
-					"sets" : "3",
-					"reps" : "5",
-					"multiplier" : 1.0
-				}],
-				"deadlifts" : [{
-					"sets" : "2",
-					"reps" : "5",
-					"multiplier" : 0.4
-				}, {
-					"sets" : "1",
-					"reps" : "3",
-					"multiplier" : 0.6
-				}, {
-					"sets" : "1",
-					"reps" : "2",
-					"multiplier" : 0.85
-				}, {
-					"sets" : "1",
-					"reps" : "5",
-					"multiplier" : 1.0
-				}],
-				"press" : [{
-					"sets" : "2",
-					"reps" : "5",
-					"weight" : 45
-				}, {
-					"sets" : "1",
-					"reps" : "5",
-					"multiplier" : 0.55
-				}, {
-					"sets" : "1",
-					"reps" : "3",
-					"multiplier" : 0.7
-				}, {
-					"sets" : "1",
-					"reps" : "2",
-					"multiplier" : 0.85
-				}, {
-					"sets" : "3",
-					"reps" : "5",
-					"multiplier" : 1.0
-				}],
-				"powerclean" : [{
-					"sets" : "2",
-					"reps" : "5",
-					"weight" : 45
-				}, {
-					"sets" : "1",
-					"reps" : "5",
-					"multiplier" : 0.55
-				}, {
-					"sets" : "1",
-					"reps" : "3",
-					"multiplier" : 0.7
-				}, {
-					"sets" : "1",
-					"reps" : "2",
-					"multiplier" : 0.85
-				}, {
-					"sets" : "5",
-					"reps" : "3",
-					"multiplier" : 1.0
-				}]	
-			}
+			"programs" : []
 		}
 
 		$(document).ready(function() {
+			$.getJSON("programs/starting_strength.json", function(data) {
+			    warmupApp.programs.push(data);
+			});
+
 			$('#squats-weight-container').change(function() {updateSquatsWorkout();});
 			$('#bench-weight-container').change(function() {updateBenchWorkout();});
 			$('#deadlift-weight-container').change(function() {updateDeadliftWorkout();});
