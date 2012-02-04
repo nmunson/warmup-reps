@@ -19,9 +19,23 @@
 		}
 
 		$(document).ready(function() {
-			$.getJSON("programs/starting_strength.json", function(data) {
+			$.ajax({
+				url: 'programs/starting_strength.json',
+				dataType: 'json',
+				success: function(data) {
 			    warmupApp.programs.push(data);
+				},
+				async: false
 			});
+
+			//build pages
+			for (i = 0; i < warmupApp.programs.length; i++) {
+				$('#programs').append('<p><a href="#' + warmupApp.programs[i].title.toLowerCase().replace(/ /g, '-') + 
+					'" data-role="button" id="' + warmupApp.programs[i].title.toLowerCase().replace(/ /g, '-') + 
+					'-link">' + warmupApp.programs[i].title + '</a></p>');
+			}
+
+			$('#main').page("destroy").page();
 
 			$('#squats-weight-container').change(function() {updateSquatsWorkout();});
 			$('#bench-weight-container').change(function() {updateBenchWorkout();});
@@ -211,15 +225,17 @@
 	<div data-role="content" >	
 		<h2>Getting Started</h2>
 		
-		<p>Getting started is easy.  Choose an exercise, and then set your target weight.  Your warmup sets will then be automatically
+		<p>Getting started is easy.  Choose a program, exercise, and then set your target weight.  Your warmup sets will then be automatically
 		calculated.</p>	
 		
-		<h3>Choose an exercise:</h3>
-		<p><a href="#squats" data-role="button" id="squats-link">Squats</a></p>	
+		<h3>Choose a program:</h3>
+		<div id="programs">
+		</div>
+		<!--<p><a href="#squats" data-role="button" id="squats-link">Squats</a></p>	
 		<p><a href="#bench" data-role="button" id="bench-link">Bench Press</a></p>	
 		<p><a href="#deadlift" data-role="button" id="deadlift-link">Deadlifts</a></p>	
 		<p><a href="#press" data-role="button" id="press-link">Press</a></p>
-		<p><a href="#powerclean" data-role="button" id="powerclean-link">Power Clean</a></p>
+		<p><a href="#powerclean" data-role="button" id="powerclean-link">Power Clean</a></p> -->
 		<!--		
 		<hr />
 		<h4>Settings</h4>
