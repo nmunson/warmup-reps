@@ -1,0 +1,138 @@
+{
+  "program" : "Starting Strength",
+  "exercises" : [{
+    "name" : "squats",
+    "workouts" : [{
+        "sets" : "2",
+        "reps" : "5",
+        "weight" : 45
+      }, {
+        "sets" : "1",
+        "reps" : "5",
+        "multiplier" : 0.4
+      }, {
+        "sets" : "1",
+        "reps" : "3",
+        "multiplier" : 0.6
+      }, {
+        "sets" : "1",
+        "reps" : "2",
+        "multiplier" : 0.8
+      }, {
+        "sets" : "3",
+        "reps" : "5",
+        "multiplier" : 1.0
+      }],
+    },{
+    "name" : "bench",
+    "workouts": [{
+        "sets" : "2",
+        "reps" : "5",
+        "weight" : 45
+      }, {
+        "sets" : "1",
+        "reps" : "5",
+        "multiplier" : 0.5
+      }, {
+        "sets" : "1",
+        "reps" : "3",
+        "multiplier" : 0.7
+      }, {
+        "sets" : "1",
+        "reps" : "2",
+        "multiplier" : 0.9
+      }, {
+        "sets" : "3",
+        "reps" : "5",
+        "multiplier" : 1.0
+      }],
+    },{
+    "name" : "deadlifts",
+    "workouts" : [{
+        "sets" : "2",
+        "reps" : "5",
+        "multiplier" : 0.4
+      }, {
+        "sets" : "1",
+        "reps" : "3",
+        "multiplier" : 0.6
+      }, {
+        "sets" : "1",
+        "reps" : "2",
+        "multiplier" : 0.85
+      }, {
+        "sets" : "1",
+        "reps" : "5",
+        "multiplier" : 1.0
+      }],
+    },{
+  "name" : "press",
+  "workouts" : [{
+      "sets" : "2",
+      "reps" : "5",
+      "weight" : 45
+    }, {
+      "sets" : "1",
+      "reps" : "5",
+      "multiplier" : 0.55
+    }, {
+      "sets" : "1",
+      "reps" : "3",
+      "multiplier" : 0.7
+    }, {
+      "sets" : "1",
+      "reps" : "2",
+      "multiplier" : 0.85
+    }, {
+      "sets" : "3",
+      "reps" : "5",
+      "multiplier" : 1.0
+    }],
+    },{
+  "name" : "Power Cleans",
+  "workouts" : [{
+      "sets" : "2",
+      "reps" : "5",
+      "weight" : 45
+    }, {
+      "sets" : "1",
+      "reps" : "5",
+      "multiplier" : 0.55
+    }, {
+      "sets" : "1",
+      "reps" : "3",
+      "multiplier" : 0.7
+    }, {
+      "sets" : "1",
+      "reps" : "2",
+      "multiplier" : 0.85
+    }, {
+      "sets" : "5",
+      "reps" : "3",
+      "multiplier" : 1.0
+    }]  
+  },{
+    "name" : "rows",
+    "workouts": [{
+        "sets" : "2",
+        "reps" : "5",
+        "weight" : 45
+      }, {
+        "sets" : "1",
+        "reps" : "5",
+        "multiplier" : 0.5
+      }, {
+        "sets" : "1",
+        "reps" : "3",
+        "multiplier" : 0.7
+      }, {
+        "sets" : "1",
+        "reps" : "2",
+        "multiplier" : 0.9
+      }, {
+        "sets" : "3",
+        "reps" : "5",
+        "multiplier" : 1.0
+      }]
+  }]
+}
