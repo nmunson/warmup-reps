@@ -1,0 +1,464 @@
+
+<!DOCTYPE html> 
+<html> 
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+	<title>Warmup Calculator</title> 
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.css" />
+	<script src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.js"></script>
+
+	<script type="text/javascript">
+		
+		var warmupApp = {
+			"bar_weight" : 45,
+			"metric" : false,
+			"exercises" : {
+				"squats" : [{
+					"sets" : "2",
+					"reps" : "5",
+					"weight" : 45
+				}, {
+					"sets" : "1",
+					"reps" : "5",
+					"multiplier" : 0.4
+				}, {
+					"sets" : "1",
+					"reps" : "3",
+					"multiplier" : 0.6
+				}, {
+					"sets" : "1",
+					"reps" : "2",
+					"multiplier" : 0.8
+				}, {
+					"sets" : "3",
+					"reps" : "5",
+					"multiplier" : 1.0
+				}],
+				"bench": [{
+					"sets" : "2",
+					"reps" : "5",
+					"weight" : 45
+				}, {
+					"sets" : "1",
+					"reps" : "5",
+					"multiplier" : 0.5
+				}, {
+					"sets" : "1",
+					"reps" : "3",
+					"multiplier" : 0.7
+				}, {
+					"sets" : "1",
+					"reps" : "2",
+					"multiplier" : 0.9
+				}, {
+					"sets" : "3",
+					"reps" : "5",
+					"multiplier" : 1.0
+				}],
+				"deadlifts" : [{
+					"sets" : "2",
+					"reps" : "5",
+					"multiplier" : 0.4
+				}, {
+					"sets" : "1",
+					"reps" : "3",
+					"multiplier" : 0.6
+				}, {
+					"sets" : "1",
+					"reps" : "2",
+					"multiplier" : 0.85
+				}, {
+					"sets" : "1",
+					"reps" : "5",
+					"multiplier" : 1.0
+				}],
+				"press" : [{
+					"sets" : "2",
+					"reps" : "5",
+					"weight" : 45
+				}, {
+					"sets" : "1",
+					"reps" : "5",
+					"multiplier" : 0.55
+				}, {
+					"sets" : "1",
+					"reps" : "3",
+					"multiplier" : 0.7
+				}, {
+					"sets" : "1",
+					"reps" : "2",
+					"multiplier" : 0.85
+				}, {
+					"sets" : "3",
+					"reps" : "5",
+					"multiplier" : 1.0
+				}],
+				"powerclean" : [{
+					"sets" : "2",
+					"reps" : "5",
+					"weight" : 45
+				}, {
+					"sets" : "1",
+					"reps" : "5",
+					"multiplier" : 0.55
+				}, {
+					"sets" : "1",
+					"reps" : "3",
+					"multiplier" : 0.7
+				}, {
+					"sets" : "1",
+					"reps" : "2",
+					"multiplier" : 0.85
+				}, {
+					"sets" : "5",
+					"reps" : "3",
+					"multiplier" : 1.0
+				}]	
+			}
+		}
+
+		$(document).ready(function() {
+			$('#squats-weight-container').change(function() {updateSquatsWorkout();});
+			$('#bench-weight-container').change(function() {updateBenchWorkout();});
+			$('#deadlift-weight-container').change(function() {updateDeadliftWorkout();});
+			$('#press-weight-container').change(function() {updatePressWorkout();});
+			$('#powerclean-weight-container').change(function() {updatePowerCleanWorkout();});
+
+			$('#units').change(function() {
+				warmupApp.metric = !warmupApp.metric;
+				warmupApp.bar_weight = warmupApp.metric ? 20 : 45;
+
+				$('input').attr('min', warmupApp.bar_weight.toString());
+
+				updateSquatsWorkout();
+				updateBenchWorkout();
+				updateDeadliftWorkout();
+				updatePressWorkout();
+				updatePowerCleanWorkout();
+			});
+
+			$('#squats-link').click(function() {
+				if ($('#squats-warmup li:first').text() == "") 
+					updateSquatsWorkout();
+			});
+
+			$('#bench-link').click(function() {
+				if ($('#bench-warmup li:first').text() == "") 
+					updateBenchWorkout();
+			});
+
+			$('#deadlift-link').click(function() {
+				if ($('#deadlift-warmup li:first').text() == "") 
+					updateDeadliftWorkout();
+			});			
+
+			$('#press-link').click(function() {
+				if ($('#press-warmup li:first').text() == "") 
+					updatePressWorkout();
+			});			
+
+			$('#powerclean-link').click(function() {
+				if ($('#powerclean-warmup li:first').text() == "") 
+					updatePowerCleanWorkout();
+			});			
+		});
+
+		function updateSquatsWorkout() {			
+			updateWorkout($('#squats-warmup'), $('#squats-weight').val(), warmupApp.exercises.squats)
+		}
+		
+		function updateBenchWorkout() {
+			updateWorkout($('#bench-warmup'), $('#bench-weight').val(), warmupApp.exercises.bench)
+		}	
+
+		function updateDeadliftWorkout() {
+			updateWorkout($('#deadlift-warmup'), $('#deadlift-weight').val(), warmupApp.exercises.deadlifts)
+		}	
+
+		function updatePressWorkout() {
+			updateWorkout($('#press-warmup'), $('#press-weight').val(), warmupApp.exercises.press)
+		}	
+
+		function updatePowerCleanWorkout() {
+			updateWorkout($('#powerclean-warmup'), $('#powerclean-weight').val(), warmupApp.exercises.powerclean)
+		}	
+
+		function updateWorkout(parent, weight, exercise) {
+			var initial = parent.children().length == 0
+
+			parent.empty();
+
+			for (var i = 0; i < exercise.length; i++) {
+				var setWeight = findWeight(exercise[i], weight);
+				parent.append('<li>' + 
+					printSet(exercise[i].sets, 
+					exercise[i].reps, 
+					setWeight) + ' (' + calculateBarbellWeights(setWeight) + ')</li>');
+			}
+			if (!initial)
+				parent.listview('refresh');
+		}
+
+		function calculateBarbellWeights(weight) {
+			weight -= warmupApp.bar_weight;
+
+			if (weight === 0)
+				return "Bar";
+
+			weight /= 2;
+
+			var weight_45 = 0;
+			var weight_35 = 0;
+			var weight_25 = 0;
+			var weight_10 = 0;
+			var weight_5 = 0;
+			var weight_2half = 0;
+
+			while (weight > 0) {
+				if (weight >= 45) {
+					weight_45 += 1;
+					weight -= 45;
+					continue;
+				}
+				else if (weight >= 35) {
+					weight_35 += 1;
+					weight -= 35;
+					continue;					
+				}
+				else if (weight >= 25) {
+					weight_25 += 1;
+					weight -= 25;
+					continue;					
+				}
+				else if (weight >= 10) {
+					weight_10 += 1;
+					weight -= 10;
+					continue;					
+				}
+				else if (weight >= 5) {
+					weight_5 += 1;
+					weight -= 5;
+					continue;					
+				}
+				else {
+					weight_2half += 1;
+					weight -= 2.5;
+					continue;					
+				}				
+			}
+
+			var result = "";
+
+			if (weight_45 != 0) 
+				result += printWeightCountSubstring(weight_45, "45");
+			if (weight_35 != 0)
+				result += printWeightCountSubstring(weight_35, "35");
+			if (weight_25 != 0)
+				result += printWeightCountSubstring(weight_25, "25");
+			if (weight_10 != 0)
+				result += printWeightCountSubstring(weight_10, "10");
+			if (weight_5 != 0) 
+				result += printWeightCountSubstring(weight_5, "5");
+			if (weight_2half != 0)
+				result += printWeightCountSubstring(weight_2half, "2.5");
+
+			return $.trim(result);
+		}
+
+		function printWeightCountSubstring(weight, text) {
+			if (weight > 1)
+				return weight + "x" + text + " ";
+			else
+				return text + " ";
+		}
+
+		function findWeight(exercise, weight) {
+			if (exercise.multiplier != undefined)
+				return roundDown(exercise.multiplier * weight);
+			else
+				return exercise.weight;
+		}
+		
+		function printSet(sets, reps, weight) {
+			var output = sets + "x" + reps + " " + weight;
+			if (warmupApp.metric)
+				return output + " kgs"
+			else 
+				return output + " lbs"
+		}
+
+		function roundDown(num) {
+			return (num - (num % 5) < 45) ? 45 : num - (num % 5);
+		}
+	</script>
+</head> 
+
+	
+<body> 
+
+
+<div data-role="page" id="main">
+
+	<div data-role="header">
+		<h1>Warmup Calculator</h1>
+	</div>
+
+	<div data-role="content" >	
+		<h2>Getting Started</h2>
+		
+		<p>Getting started is easy.  Choose an exercise, and then set your target weight.  Your warmup sets will then be automatically
+		calculated.</p>	
+		
+		<h3>Choose an exercise:</h3>
+		<p><a href="#squats" data-role="button" id="squats-link">Squats</a></p>	
+		<p><a href="#bench" data-role="button" id="bench-link">Bench Press</a></p>	
+		<p><a href="#deadlift" data-role="button" id="deadlift-link">Deadlifts</a></p>	
+		<p><a href="#press" data-role="button" id="press-link">Press</a></p>
+		<p><a href="#powerclean" data-role="button" id="powerclean-link">Power Clean</a></p>
+		<hr />
+		<h4>Settings</h4>
+		
+		<label for="units">Unit system:</label>
+		<select name="slider" id="units" data-role="slider">
+			<option value="lbs">Pounds</option>
+			<option value="kgs">Kilograms</option>
+		</select> 
+		
+	</div>
+	
+	<div data-role="footer" data-theme="d">
+		<h4>&copy; 2012 Nicholas Munson</h4>
+	</div>
+</div>
+
+
+<div data-role="page" id="squats">
+
+	<div data-role="header">
+		<h1>Warmup Calculator</h1>
+	</div>
+
+	<div data-role="content">	
+		<h2>Squats</h2>
+		<p>Choose your working weight.  Your warmup sets will then be calculated as well as the weights you need to put on each bar side.</p>
+	   	<div id="squats-weight-container">
+	   		<label for="squats-weight">Weight:</label>
+	   		<input type="range" name="squats-weight" id="squats-weight" value="100" min="45" max="500" step="5" />	
+		</div>
+		<ul data-role="listview" data-inset="true" id="squats-warmup">
+		</ul>
+		<p><a href="#main" data-direction="reverse" data-role="button">Choose another exercise</a></p>	
+		
+	</div>
+	
+	<div data-role="footer" data-theme="d">
+		<h4>&copy; 2012 Nicholas Munson</h4>
+	</div>
+</div>
+
+
+<div data-role="page" id="bench">
+
+	<div data-role="header">
+		<h1>Warmup Calculator</h1>
+	</div>
+
+	<div data-role="content">	
+		<h2>Bench Press</h2>
+		<p>Choose your working weight.  Your warmup sets will then be calculated as well as the weights you need to put on each bar side.</p>
+	   	<div id="bench-weight-container">
+	   		<label for="bench-weight">Weight:</label>
+	   		<input type="range" name="bench-weight" id="bench-weight" value="150" min="45" max="500" step="5" />	
+		</div>
+		<ul data-role="listview" data-inset="true" id="bench-warmup">
+		</ul>
+		<p><a href="#main" data-direction="reverse" data-role="button">Choose another exercise</a></p>	
+		
+	</div>
+	
+	<div data-role="footer" data-theme="d">
+		<h4>&copy; 2012 Nicholas Munson</h4>
+	</div>
+</div>
+
+
+<div data-role="page" id="deadlift">
+
+	<div data-role="header">
+		<h1>Warmup Calculator</h1>
+	</div>
+
+	<div data-role="content">	
+		<h2>Deadlift</h2>
+		<p>Choose your working weight.  Your warmup sets will then be calculated as well as the weights you need to put on each bar side.</p>
+	   	<div id="deadlift-weight-container">
+	   		<label for="deadlift-weight">Weight:</label>
+	   		<input type="range" name="deadlift-weight" id="deadlift-weight" value="200" min="45" max="600" step="5" />	
+		</div>
+		<ul data-role="listview" data-inset="true" id="deadlift-warmup">
+		</ul>
+		<p><a href="#main" data-direction="reverse" data-role="button">Choose another exercise</a></p>	
+		
+	</div>
+	
+	<div data-role="footer" data-theme="d">
+		<h4>&copy; 2012 Nicholas Munson</h4>
+	</div>
+</div>
+
+
+<div data-role="page" id="press">
+
+	<div data-role="header">
+		<h1>Warmup Calculator</h1>
+	</div>
+
+	<div data-role="content">	
+		<h2>Press</h2>
+		<p>Choose your working weight.  Your warmup sets will then be calculated as well as the weights you need to put on each bar side.</p>
+	   	<div id="press-weight-container">
+	   		<label for="press-weight">Weight:</label>
+	   		<input type="range" name="press-weight" id="press-weight" value="100" min="45" max="250" step="5" />	
+		</div>
+		<ul data-role="listview" data-inset="true" id="press-warmup">
+		</ul>
+		<p><a href="#main" data-direction="reverse" data-role="button">Choose another exercise</a></p>	
+		
+	</div>
+
+	<div data-role="footer" data-theme="d">
+		<h4>&copy; 2012 Nicholas Munson</h4>
+	</div>
+</div>
+
+
+<div data-role="page" id="powerclean">
+
+	<div data-role="header">
+		<h1>Warmup Calculator</h1>
+	</div>
+
+	<div data-role="content">	
+		<h2>Power Clean</h2>
+		<p>Choose your working weight.  Your warmup sets will then be calculated as well as the weights you need to put on each bar side.</p>
+	   	<div id="powerclean-weight-container">
+	   		<label for="powerclean-weight">Weight:</label>
+	   		<input type="range" name="powerclean-weight" id="powerclean-weight" value="100" min="45" max="350" step="5" />	
+		</div>
+		<ul data-role="listview" data-inset="true" id="powerclean-warmup">
+		</ul>
+		<p><a href="#main" data-direction="reverse" data-role="button">Choose another exercise</a></p>	
+		
+	</div>
+	
+	<div data-role="footer" data-theme="d">
+		<h4>&copy; 2012 Nicholas Munson</h4>
+	</div>
+</div>
+
+
+</body>
+</html>
