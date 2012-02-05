@@ -1,11 +1,11 @@
 {
   "title" : "Starting Strength",
   "exercises" : [{
-    "name" : "squats",
+    "name" : "Squats",
     "workouts" : [{
         "sets" : "2",
         "reps" : "5",
-        "weight" : 45
+        "multiplier" : 0
       }, {
         "sets" : "1",
         "reps" : "5",
@@ -24,11 +24,11 @@
         "multiplier" : 1.0
       }]
     },{
-    "name" : "bench",
+    "name" : "Bench",
     "workouts": [{
         "sets" : "2",
         "reps" : "5",
-        "weight" : 45
+        "multiplier" : 0
       }, {
         "sets" : "1",
         "reps" : "5",
@@ -47,7 +47,7 @@
         "multiplier" : 1.0
       }]
     },{
-    "name" : "deadlifts",
+    "name" : "Deadlifts",
     "workouts" : [{
         "sets" : "2",
         "reps" : "5",
@@ -66,11 +66,11 @@
         "multiplier" : 1.0
       }]
     },{
-    "name" : "press",
+    "name" : "Press",
     "workouts" : [{
         "sets" : "2",
         "reps" : "5",
-        "weight" : 45
+        "multiplier" : 0
       }, {
         "sets" : "1",
         "reps" : "5",
@@ -93,7 +93,7 @@
     "workouts" : [{
         "sets" : "2",
         "reps" : "5",
-        "weight" : 45
+        "multiplier" : 0
       }, {
         "sets" : "1",
         "reps" : "5",
@@ -112,11 +112,11 @@
         "multiplier" : 1.0
       }]
   },{
-    "name" : "rows",
+    "name" : "Rows",
     "workouts": [{
         "sets" : "2",
         "reps" : "5",
-        "weight" : 45
+        "multiplier" : 0
       }, {
         "sets" : "1",
         "reps" : "5",
