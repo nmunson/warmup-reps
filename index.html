@@ -15,7 +15,13 @@
 		var warmupApp = {
 			"metric" : false,
 			barWeight : function() {
-				return warmupApp.metric ? 20 : 45
+				return warmupApp.metric ? 20 : 45;
+			},
+			weights : function() {
+				if (warmupApp.metric)
+					return [20, 15, 10, 5, 2.5, 1.25];
+				else
+					return [45, 35, 25, 10, 5, 2.5];
 			},
 			"programs" : []
 		}
@@ -139,34 +145,34 @@
 			var weight_2half = 0;
 
 			while (weight > 0) {
-				if (weight >= 45) {
+				if (weight >= warmupApp.weights()[0]) {
 					weight_45 += 1;
-					weight -= 45;
+					weight -= warmupApp.weights()[0];
 					continue;
 				}
-				else if (weight >= 35) {
+				else if (weight >= warmupApp.weights()[1]) {
 					weight_35 += 1;
-					weight -= 35;
+					weight -= warmupApp.weights()[1];
 					continue;					
 				}
-				else if (weight >= 25) {
+				else if (weight >= warmupApp.weights()[2]) {
 					weight_25 += 1;
-					weight -= 25;
+					weight -= warmupApp.weights()[2];
 					continue;					
 				}
-				else if (weight >= 10) {
+				else if (weight >= warmupApp.weights()[3]) {
 					weight_10 += 1;
-					weight -= 10;
+					weight -= warmupApp.weights()[3];
 					continue;					
 				}
-				else if (weight >= 5) {
+				else if (weight >= warmupApp.weights()[4]) {
 					weight_5 += 1;
-					weight -= 5;
+					weight -= warmupApp.weights()[4];
 					continue;					
 				}
 				else {
 					weight_2half += 1;
-					weight -= 2.5;
+					weight -= warmupApp.weights()[5];
 					continue;					
 				}				
 			}
@@ -174,17 +180,17 @@
 			var result = "";
 
 			if (weight_45 != 0) 
-				result += printWeightCountSubstring(weight_45, "45");
+				result += printWeightCountSubstring(weight_45, warmupApp.weights()[0].toString());
 			if (weight_35 != 0)
-				result += printWeightCountSubstring(weight_35, "35");
+				result += printWeightCountSubstring(weight_35, warmupApp.weights()[1].toString());
 			if (weight_25 != 0)
-				result += printWeightCountSubstring(weight_25, "25");
+				result += printWeightCountSubstring(weight_25, warmupApp.weights()[2].toString());
 			if (weight_10 != 0)
-				result += printWeightCountSubstring(weight_10, "10");
+				result += printWeightCountSubstring(weight_10, warmupApp.weights()[3].toString());
 			if (weight_5 != 0) 
-				result += printWeightCountSubstring(weight_5, "5");
+				result += printWeightCountSubstring(weight_5, warmupApp.weights()[4].toString());
 			if (weight_2half != 0)
-				result += printWeightCountSubstring(weight_2half, "2.5");
+				result += printWeightCountSubstring(weight_2half, warmupApp.weights()[5].toString());
 
 			return $.trim(result);
 		}
@@ -212,8 +218,12 @@
 		}
 
 		function roundDown(num) {
-			return (num - (num % 5) < warmupApp.barWeight()) ? warmupApp.barWeight() : num - (num % 5);
-		}
+			if (num - (num % 5) < warmupApp.barWeight())
+				return warmupApp.barWeight();
+			else
+				return num - (num % 5);
+		}		
+
 	</script>
 </head> 
 
