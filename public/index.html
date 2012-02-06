@@ -36,97 +36,98 @@
 				async: false
 			});
 
-			$('input').attr('min', warmupApp.barWeight());
-
-			$('#squats-weight-container').change(function() {updateSquatsWorkout();});
-			$('#bench-weight-container').change(function() {updateBenchWorkout();});
-			$('#deadlift-weight-container').change(function() {updateDeadliftWorkout();});
-			$('#press-weight-container').change(function() {updatePressWorkout();});
-			$('#powerclean-weight-container').change(function() {updatePowerCleanWorkout();});
-			$('#rows-weight-container').change(function() {updateRowsWorkout();});
-
 			$('#units').change(function() {
 				warmupApp.metric = !warmupApp.metric;
 
 				$('input').attr('min', warmupApp.barWeight().toString());
 
-				updateSquatsWorkout();
-				updateBenchWorkout();
-				updateDeadliftWorkout();
-				updatePressWorkout();
-				updatePowerCleanWorkout();
-				updateRowsWorkout();
+				//trigger update for all lists, currently shows lbs until slider is changed
 			});
 
-			$('#squats-link').click(function() {
-				if ($('#squats-warmup li:first').text() == "") 
-					updateSquatsWorkout();
-			});
+			for (i = 0; i < warmupApp.programs.length; i++) {
+				var shortTitle = warmupApp.programs[i].title.toLowerCase().replace(/ /g, '-');
 
-			$('#bench-link').click(function() {
-				if ($('#bench-warmup li:first').text() == "") 
-					updateBenchWorkout();
-			});
+				// generate homepage links
+				$('#programs').append('<p><a href="#' + shortTitle + 
+					'" data-role="button" id="' + shortTitle + 
+					'-link">' + warmupApp.programs[i].title + '</a></p>');
 
-			$('#deadlift-link').click(function() {
-				if ($('#deadlift-warmup li:first').text() == "") 
-					updateDeadliftWorkout();
-			});			
+				//generate page for program
+				$('body').append('<div data-role="page" id="' + shortTitle + '"> \
+						<div data-role="header"><h1>Warmup Calculator</h1></div> \
+						<div data-role="content"> \
+							<h2>' + warmupApp.programs[i].title + '</h2> \
+							<p>Getting started is easy.  Choose a program, exercise, and then set your target weight.  Your warmup sets will then be automatically calculated.</p> \
+							<h3>Choose an exercise:</h3><div id="' + shortTitle + '-exercises"></div> \
+							<hr /><p><a href="#main" data-direction="reverse" data-role="button">Choose another program</a></p></div> \
+						<div data-role="footer" data-theme="d"><h4>&copy; 2012 Nicholas Munson</h4></div> \
+					</div>');
 
-			$('#press-link').click(function() {
-				if ($('#press-warmup li:first').text() == "") 
-					updatePressWorkout();
-			});			
+				//add exercises
+				for (j = 0; j < warmupApp.programs[i].exercises.length; j++) {
+					shortExerciseName = warmupApp.programs[i].exercises[j].name.toLowerCase().replace(/ /g, '-');
+					$('#' + shortTitle + '-exercises').append(
+						'<p><a href="#' + shortTitle + "-" + shortExerciseName + '" data-role="button" id="' + 
+						shortExerciseName + '-link">' + warmupApp.programs[i].exercises[j].name + '</a></p>');
 
-			$('#powerclean-link').click(function() {
-				if ($('#powerclean-warmup li:first').text() == "") 
-					updatePowerCleanWorkout();
-			});			
+					//generate page for each exercise
+					$('body').append('<div data-role="page" id="' + shortTitle + "-" + shortExerciseName + '"> \
+						<div data-role="header"><h1>Warmup Calculator</h1></div> \
+						<div data-role="content"><h2>' + warmupApp.programs[i].exercises[j].name + '</h2> \
+						<p>Choose your working weight.  Your warmup sets will then be calculated as well as the weights you need to put on each bar side.</p>	\
+				   		<div id="' + shortTitle + "-" + shortExerciseName + '-weight-container"><label for="' + shortTitle + "-" + shortExerciseName + '-weight">Weight:</label> \
+				   		<input type="range" name="' + shortTitle + "-" + shortExerciseName + '-weight" id="' + shortTitle + "-" + shortExerciseName + '-weight" value="100" min="45" max="350" step="5" />	\
+						</div><ul data-role="listview" data-inset="true" id="' + shortTitle + "-" + shortExerciseName + '-warmup"></ul> \
+						<p><a href="#' + shortTitle + '" data-direction="reverse" data-role="button">Choose another exercise</a></p>	\
+						</div><div data-role="footer" data-theme="d"><h4>&copy; 2012 Nicholas Munson</h4></div></div>');
 
-			$('#rows-link').click(function() {
-				if ($('#rows-warmup li:first').text() == "") 
-					updateRowsWorkout();
-			});			
+					$('#' + shortTitle + "-" + shortExerciseName + '-warmup')
+						.data('workouts', warmupApp.programs[i].exercises[j].workouts);
+
+					//add each set
+					for (k = 0; k < warmupApp.programs[i].exercises[j].workouts.length; k++) {
+						var workout = warmupApp.programs[i].exercises[j].workouts[k];
+						var setWeight = findWeight(workout, $('#' + shortTitle + '-' + shortExerciseName + '-weight').val());
+
+						$('#' + shortTitle + "-" + shortExerciseName + '-warmup').append('<li>' + 
+							printSet(workout.sets, workout.reps, setWeight) + 
+							' (' + calculateBarbellWeights(setWeight) + ')</li>');
+					}
+
+				}
+
+				$('div').filter(function() {
+					return this.id.match(/-weight-container/);
+				})
+				.change(function() {
+					updateWorkout($(this).next(), $(this).find('input').val());
+				});
+			
+			}
+
+			$('#main').page("destroy").page();
+
 		});
 
-		function updateSquatsWorkout() {			
-			updateWorkout($('#squats-warmup'), $('#squats-weight').val(), warmupApp.programs[0].exercises[0])
-		}
-		
-		function updateBenchWorkout() {
-			updateWorkout($('#bench-warmup'), $('#bench-weight').val(), warmupApp.programs[0].exercises[1])
-		}	
+		function updateWorkout(list, weight) {
+			var workouts = [];
 
-		function updateDeadliftWorkout() {
-			updateWorkout($('#deadlift-warmup'), $('#deadlift-weight').val(), warmupApp.programs[0].exercises[2])
-		}	
-
-		function updatePressWorkout() {
-			updateWorkout($('#press-warmup'), $('#press-weight').val(), warmupApp.programs[0].exercises[3])
-		}	
-
-		function updatePowerCleanWorkout() {
-			updateWorkout($('#powerclean-warmup'), $('#powerclean-weight').val(), warmupApp.programs[0].exercises[4])
-		}	
-
-		function updateRowsWorkout() {
-			updateWorkout($('#rows-warmup'), $('#rows-weight').val(), warmupApp.programs[0].exercises[5])
-		}	
-
-		function updateWorkout(parent, weight, exercise) {
-			var initial = parent.children().length == 0
-
-			parent.empty();
-
-			for (var i = 0; i < exercise.workouts.length; i++) {
-				var setWeight = findWeight(exercise.workouts[i], weight);
-				parent.append('<li>' + 
-					printSet(exercise.workouts[i].sets, 
-					exercise.workouts[i].reps, 
-					setWeight) + ' (' + calculateBarbellWeights(setWeight) + ')</li>');
+			for (i = 0; i < list.data('workouts').length; i++) {
+				workouts.push(list.data('workouts')[i]);
 			}
-			if (!initial)
-				parent.listview('refresh');
+
+			list.empty();
+
+			for (i = 0; i < workouts.length; i++) {
+				var workout = workouts[i];
+				var setWeight = findWeight(workout, weight);
+
+				list.append('<li>' + 
+					printSet(workout.sets, workout.reps, setWeight) + 
+					' (' + calculateBarbellWeights(setWeight) + ')</li>');
+			}
+
+			list.listview('refresh');
 		}
 
 		function calculateBarbellWeights(weight) {
@@ -239,20 +240,14 @@
 
 	<div data-role="content" >	
 		<h2>Getting Started</h2>
-		
-		<p>Getting started with warmup sets for Starting Strength is easy.  Choose an exercise, and then set your target weight.  Your warmup sets will then be automatically
+
+		<p>Getting started is easy.  Choose a program, exercise, and then set your target weight.  Your warmup sets will then be automatically
 		calculated.</p>	
-		
-		<h3>Choose an exercise:</h3>
-		<div id="exercises">
+
+		<h3>Choose a program:</h3>
+		<div id="programs">
 		</div>
-		<p><a href="#squats" data-role="button" id="squats-link">Squats</a></p>	
-		<p><a href="#bench" data-role="button" id="bench-link">Bench Press</a></p>	
-		<p><a href="#deadlift" data-role="button" id="deadlift-link">Deadlifts</a></p>	
-		<p><a href="#press" data-role="button" id="press-link">Press</a></p>
-		<p><a href="#powerclean" data-role="button" id="powerclean-link">Power Clean</a></p> 
-		<p><a href="#rows" data-role="button" id="rows-link">Rows</a></p> 
-		
+
 		<hr />
 		<h4>Settings</h4>
 
@@ -260,165 +255,14 @@
 		<select name="slider" id="units" data-role="slider">
 			<option value="lbs">Pounds</option>
 			<option value="kgs">Kilograms</option>
-		</select> 
-		
-	</div>
-	
-	<div data-role="footer" data-theme="d">
-		<h4>&copy; 2012 Nicholas Munson</h4>
-	</div>
-</div>
+		</select>		
 
-
-<div data-role="page" id="squats">
-
-	<div data-role="header">
-		<h1>Warmup Calculator</h1>
-	</div>
-
-	<div data-role="content">	
-		<h2>Squats</h2>
-		<p>Choose your working weight.  Your warmup sets will then be calculated as well as the weights you need to put on each bar side.</p>
-	   	<div id="squats-weight-container">
-	   		<label for="squats-weight">Weight:</label>
-	   		<input type="range" name="squats-weight" id="squats-weight" value="100" min="45" max="500" step="5" />	
-		</div>
-		<ul data-role="listview" data-inset="true" id="squats-warmup">
-		</ul>
-		<p><a href="#main" data-direction="reverse" data-role="button">Choose another exercise</a></p>	
-		
-	</div>
-	
-	<div data-role="footer" data-theme="d">
-		<h4>&copy; 2012 Nicholas Munson</h4>
-	</div>
-</div>
-
-
-<div data-role="page" id="bench">
-
-	<div data-role="header">
-		<h1>Warmup Calculator</h1>
-	</div>
-
-	<div data-role="content">	
-		<h2>Bench Press</h2>
-		<p>Choose your working weight.  Your warmup sets will then be calculated as well as the weights you need to put on each bar side.</p>
-	   	<div id="bench-weight-container">
-	   		<label for="bench-weight">Weight:</label>
-	   		<input type="range" name="bench-weight" id="bench-weight" value="150" min="45" max="500" step="5" />	
-		</div>
-		<ul data-role="listview" data-inset="true" id="bench-warmup">
-		</ul>
-		<p><a href="#main" data-direction="reverse" data-role="button">Choose another exercise</a></p>	
-		
-	</div>
-	
-	<div data-role="footer" data-theme="d">
-		<h4>&copy; 2012 Nicholas Munson</h4>
-	</div>
-</div>
-
-
-<div data-role="page" id="deadlift">
-
-	<div data-role="header">
-		<h1>Warmup Calculator</h1>
-	</div>
-
-	<div data-role="content">	
-		<h2>Deadlift</h2>
-		<p>Choose your working weight.  Your warmup sets will then be calculated as well as the weights you need to put on each bar side.</p>
-	   	<div id="deadlift-weight-container">
-	   		<label for="deadlift-weight">Weight:</label>
-	   		<input type="range" name="deadlift-weight" id="deadlift-weight" value="200" min="45" max="600" step="5" />	
-		</div>
-		<ul data-role="listview" data-inset="true" id="deadlift-warmup">
-		</ul>
-		<p><a href="#main" data-direction="reverse" data-role="button">Choose another exercise</a></p>	
-		
-	</div>
-	
-	<div data-role="footer" data-theme="d">
-		<h4>&copy; 2012 Nicholas Munson</h4>
-	</div>
-</div>
-
-
-<div data-role="page" id="press">
-
-	<div data-role="header">
-		<h1>Warmup Calculator</h1>
-	</div>
-
-	<div data-role="content">	
-		<h2>Press</h2>
-		<p>Choose your working weight.  Your warmup sets will then be calculated as well as the weights you need to put on each bar side.</p>
-	   	<div id="press-weight-container">
-	   		<label for="press-weight">Weight:</label>
-	   		<input type="range" name="press-weight" id="press-weight" value="100" min="45" max="250" step="5" />	
-		</div>
-		<ul data-role="listview" data-inset="true" id="press-warmup">
-		</ul>
-		<p><a href="#main" data-direction="reverse" data-role="button">Choose another exercise</a></p>	
-		
 	</div>
 
 	<div data-role="footer" data-theme="d">
 		<h4>&copy; 2012 Nicholas Munson</h4>
 	</div>
 </div>
-
-
-<div data-role="page" id="powerclean">
-
-	<div data-role="header">
-		<h1>Warmup Calculator</h1>
-	</div>
-
-	<div data-role="content">	
-		<h2>Power Clean</h2>
-		<p>Choose your working weight.  Your warmup sets will then be calculated as well as the weights you need to put on each bar side.</p>
-	   	<div id="powerclean-weight-container">
-	   		<label for="powerclean-weight">Weight:</label>
-	   		<input type="range" name="powerclean-weight" id="powerclean-weight" value="100" min="45" max="350" step="5" />	
-		</div>
-		<ul data-role="listview" data-inset="true" id="powerclean-warmup">
-		</ul>
-		<p><a href="#main" data-direction="reverse" data-role="button">Choose another exercise</a></p>	
-		
-	</div>
-	
-	<div data-role="footer" data-theme="d">
-		<h4>&copy; 2012 Nicholas Munson</h4>
-	</div>
-</div>
-
-
-<div data-role="page" id="rows">
-
-	<div data-role="header">
-		<h1>Warmup Calculator</h1>
-	</div>
-
-	<div data-role="content">	
-		<h2>Rows</h2>
-		<p>Choose your working weight.  Your warmup sets will then be calculated as well as the weights you need to put on each bar side.</p>
-	   	<div id="rows-weight-container">
-	   		<label for="rows-weight">Weight:</label>
-	   		<input type="range" name="rows-weight" id="rows-weight" value="100" min="45" max="350" step="5" />	
-		</div>
-		<ul data-role="listview" data-inset="true" id="rows-warmup">
-		</ul>
-		<p><a href="#main" data-direction="reverse" data-role="button">Choose another exercise</a></p>	
-		
-	</div>
-	
-	<div data-role="footer" data-theme="d">
-		<h4>&copy; 2012 Nicholas Munson</h4>
-	</div>
-</div>
-
 
 </body>
 </html>
