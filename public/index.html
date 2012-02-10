@@ -11,6 +11,15 @@
 	<script src="scripts/jquery.cookie.js"></script>
 	<script src="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.js"></script>
 
+	<style type="text/css">
+		/* issue 1259, pull request https://github.com/jquery/jquery-mobile/pull/2533 */
+		.ui-header, .ui-footer, .ui-page-fullscreen .ui-header, .ui-page-fullscreen .ui-footer {
+			box-sizing: border-box; 
+			-webkit-box-sizing: border-box; 
+			-moz-box-sizing: border-box;
+		}
+	</style>
+
 	<script type="text/javascript">
 
 		var warmupApp = {
