@@ -2,6 +2,7 @@
   "title" : "Starting Strength",
   "exercises" : [{
     "name" : "Squats",
+    "max" : 400,
     "workouts" : [{
         "sets" : "2",
         "reps" : "5",
@@ -25,6 +26,7 @@
       }]
     },{
     "name" : "Bench",
+    "max" : 300,
     "workouts": [{
         "sets" : "2",
         "reps" : "5",
@@ -48,6 +50,7 @@
       }]
     },{
     "name" : "Deadlifts",
+    "max" : 500,
     "workouts" : [{
         "sets" : "2",
         "reps" : "5",
@@ -67,6 +70,7 @@
       }]
     },{
     "name" : "Press",
+    "max" : 180, 
     "workouts" : [{
         "sets" : "2",
         "reps" : "5",
@@ -90,6 +94,7 @@
       }]
     },{
     "name" : "Power Cleans",
+    "max" : 300, 
     "workouts" : [{
         "sets" : "2",
         "reps" : "5",
@@ -113,6 +118,7 @@
       }]
   },{
     "name" : "Rows",
+    "max" : 300,
     "workouts": [{
         "sets" : "2",
         "reps" : "5",
