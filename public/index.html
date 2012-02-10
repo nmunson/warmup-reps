@@ -8,6 +8,7 @@
 	<title>Warmup Calculator</title> 
 	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.css" />
 	<script src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
+	<script src="scripts/jquery.cookie.js"></script>
 	<script src="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.js"></script>
 
 	<script type="text/javascript">
@@ -15,7 +16,10 @@
 		var warmupApp = {
 			"metric" : false,
 			barWeight : function() {
-				return warmupApp.metric ? 20 : 45;
+				if ($.cookie('bar_type') == 'bar-type-olympic' || $('input[name="bar-type"]:checked').val() == 45)
+					return warmupApp.metric ? 20 : 45;
+				else
+					return warmupApp.metric ? 10 : 20;
 			},
 			weights : function() {
 				if (warmupApp.metric)
@@ -27,6 +31,8 @@
 		}
 
 		$(document).ready(function() {
+			location.hash = '';
+
 			$.ajax({
 				url: 'programs/starting_strength.json',
 				dataType: 'json',
@@ -36,12 +42,37 @@
 				async: false
 			});
 
-			$('#units').change(function() {
-				warmupApp.metric = !warmupApp.metric;
+			if ($.cookie("units") == "units-kilograms")
+				warmupApp.metric = true;
 
+			$("input[name='units']").change(function() {
+				$.cookie('units', $(this).attr('id'));
+
+				warmupApp.metric = !warmupApp.metric;
 				$('input').attr('min', warmupApp.barWeight().toString());
+			
+				$(":input[min]").each(function() {
+					var currentMax = $(this).attr('max');
+
+					if (warmupApp.metric)
+						$(this).attr('max', roundDown(Math.floor(currentMax * 0.45359)));
+					else
+						$(this).attr('max', roundDown(Math.floor(currentMax * 2.20462)));
+				});
 
 				//trigger update for all lists, currently shows lbs until slider is changed
+				$('div').filter(function() {
+					return this.id.match(/-weight-container/);
+				}).trigger('change');
+					
+			});
+
+			$("input[name='bar-type']").change(function() {
+				$.cookie('bar_type', $(this).attr('id'));
+				$('input').attr('min', warmupApp.barWeight().toString());
+				$('div').filter(function() {
+					return this.id.match(/-weight-container/);
+				}).trigger('change');
 			});
 
 			for (i = 0; i < warmupApp.programs.length; i++) {
@@ -54,14 +85,15 @@
 
 				//generate page for program
 				$('body').append('<div data-role="page" id="' + shortTitle + '"> \
-						<div data-role="header"><h1>Warmup Calculator</h1></div> \
-						<div data-role="content"> \
-							<h2>' + warmupApp.programs[i].title + '</h2> \
-							<p>Getting started is easy.  Choose a program, exercise, and then set your target weight.  Your warmup sets will then be automatically calculated.</p> \
-							<h3>Choose an exercise:</h3><div id="' + shortTitle + '-exercises"></div> \
-							<hr /><p><a href="#main" data-direction="reverse" data-role="button">Choose another program</a></p></div> \
-						<div data-role="footer" data-theme="d"><h4>&copy; 2012 Nicholas Munson</h4></div> \
-					</div>');
+					<div data-role="header"><h1>Warmup Calculator</h1></div> \
+					<div data-role="content"> \
+					<h2>' + warmupApp.programs[i].title + '</h2> \
+					<p>Getting started is easy.  Choose a program, exercise, and then set your target weight.  Your warmup sets will then be automatically calculated.</p> \
+					<h3>Choose an exercise:</h3><div id="' + shortTitle + '-exercises"></div> \
+					<hr /><p><a href="#main" data-direction="reverse" data-role="button">Choose another program</a></p></div> \
+					<div data-role="footer" class="ui-bar" data-theme="d"><h4 style="display: inline-block; margin-left: 0px; margin-right: 10px">Related links:</h4> \
+					<a href="https://github.com/nmunson/warmup-calculator" data-role="button" data-inline="true">Fork on Github</a> \
+					<a href="https://github.com/nmunson/warmup-calculator/issues" data-role="button" data-inline="true">Issues</a></div></div>');
 
 				//add exercises
 				for (j = 0; j < warmupApp.programs[i].exercises.length; j++) {
@@ -70,19 +102,27 @@
 						'<p><a href="#' + shortTitle + "-" + shortExerciseName + '" data-role="button" id="' + 
 						shortExerciseName + '-link">' + warmupApp.programs[i].exercises[j].name + '</a></p>');
 
+					if ($.cookie(shortExerciseName) != undefined)
+						var currentWeight = $.cookie(shortExerciseName);
+					else
+						var currentWeight = "100";
+
 					//generate page for each exercise
 					$('body').append('<div data-role="page" id="' + shortTitle + "-" + shortExerciseName + '"> \
 						<div data-role="header"><h1>Warmup Calculator</h1></div> \
 						<div data-role="content"><h2>' + warmupApp.programs[i].exercises[j].name + '</h2> \
 						<p>Choose your working weight.  Your warmup sets will then be calculated as well as the weights you need to put on each bar side.</p>	\
 				   		<div id="' + shortTitle + "-" + shortExerciseName + '-weight-container"><label for="' + shortTitle + "-" + shortExerciseName + '-weight">Weight:</label> \
-				   		<input type="range" name="' + shortTitle + "-" + shortExerciseName + '-weight" id="' + shortTitle + "-" + shortExerciseName + '-weight" value="100" min="45" max="350" step="5" />	\
+				   		<input type="range" name="' + shortTitle + "-" + shortExerciseName + '-weight" id="' + shortTitle + "-" + shortExerciseName + '-weight" value="' + currentWeight + '" min="45" max="' + warmupApp.programs[i].exercises[j].max + '" step="5" />	\
 						</div><ul data-role="listview" data-inset="true" id="' + shortTitle + "-" + shortExerciseName + '-warmup"></ul> \
 						<p><a href="#' + shortTitle + '" data-direction="reverse" data-role="button">Choose another exercise</a></p>	\
-						</div><div data-role="footer" data-theme="d"><h4>&copy; 2012 Nicholas Munson</h4></div></div>');
+						</div><div data-role="footer" class="ui-bar" data-theme="d"><h4 style="display: inline-block; margin-left: 0px; margin-right: 10px">Related links:</h4> \
+						<a href="https://github.com/nmunson/warmup-calculator" data-role="button" data-inline="true">Fork on Github</a> \
+						<a href="https://github.com/nmunson/warmup-calculator/issues" data-role="button" data-inline="true">Issues</a> \
+						</div></div>');
 
 					$('#' + shortTitle + "-" + shortExerciseName + '-warmup')
-						.data('workouts', warmupApp.programs[i].exercises[j].workouts);
+						.data('workouts', warmupApp.programs[i].exercises[j]);
 
 					//add each set
 					for (k = 0; k < warmupApp.programs[i].exercises[j].workouts.length; k++) {
@@ -93,27 +133,47 @@
 							printSet(workout.sets, workout.reps, setWeight) + 
 							' (' + calculateBarbellWeights(setWeight) + ')</li>');
 					}
-
-				}
-
-				$('div').filter(function() {
-					return this.id.match(/-weight-container/);
-				})
-				.change(function() {
-					updateWorkout($(this).next(), $(this).find('input').val());
-				});
-			
+				}							
 			}
+
+			$('div').filter(function() {
+				return this.id.match(/-weight-container/);
+			})
+			.change(function() {
+				updateWorkout($(this).next(), $(this).find('input').val());
+			});
+
+			initializePreferences();
 
 			$('#main').page("destroy").page();
 
 		});
 
+		function initializePreferences() {
+			if ($.cookie('bar_type') != undefined) {
+				$('input[name="bar-type"]').prop("checked", false);
+				$('input[id="' + $.cookie('bar_type') + '"]').prop("checked", true).checkboxradio("refresh");
+				$('input').attr('min', warmupApp.barWeight().toString());
+			}
+			else {
+				$('input[id="bar-type-olympic"]').prop("checked", true).checkboxradio("refresh");
+			}
+			if ($.cookie('units') != undefined) {
+				$('input[name="units"]').prop("checked", false);
+				$('input[id="' + $.cookie('units') + '"]').prop("checked", true).checkboxradio("refresh");
+			}
+			else {
+				$('input[id="units-pounds"]').prop("checked", true).checkboxradio("refresh");
+			}
+		}
+
 		function updateWorkout(list, weight) {
 			var workouts = [];
 
-			for (i = 0; i < list.data('workouts').length; i++) {
-				workouts.push(list.data('workouts')[i]);
+			$.cookie(list.data('workouts').name.toLowerCase().replace(/ /g, '-'), weight);
+
+			for (i = 0; i < list.data('workouts').workouts.length; i++) {
+				workouts.push(list.data('workouts').workouts[i]);
 			}
 
 			list.empty();
@@ -126,8 +186,16 @@
 					printSet(workout.sets, workout.reps, setWeight) + 
 					' (' + calculateBarbellWeights(setWeight) + ')</li>');
 			}
-
-			list.listview('refresh');
+			
+			try
+			{
+				list.listview('refresh');
+			}
+			catch(err)
+			{
+				// can't refresh view if not initialized already, that is fine.
+				console.log(err);
+			}
 		}
 
 		function calculateBarbellWeights(weight) {
@@ -249,18 +317,33 @@
 		</div>
 
 		<hr />
-		<h4>Settings</h4>
+		
+		<h3>Settings</h3>
+		<div data-role="collapsible" data-content-theme="c">
+	    <h3>Configure units and bar type</h3>
+		  	<fieldset data-role="controlgroup" data-type="horizontal" >
+		  	<legend>Unit system:</legend>
+	     	<input type="radio" name="units" id="units-pounds" value="lbs" />
+	     	<label for="units-pounds">Pounds</label>
 
-		<label for="units">Unit system:</label>
-		<select name="slider" id="units" data-role="slider">
-			<option value="lbs">Pounds</option>
-			<option value="kgs">Kilograms</option>
-		</select>		
+	     	<input type="radio" name="units" id="units-kilograms" value="kgs"  />
+	     	<label for="units-kilograms">Kilograms</label>
+	    </fieldset>
+	    <fieldset data-role="controlgroup" data-type="horizontal" >
+			<legend>Bar type:</legend>
+	     	<input type="radio" name="bar-type" id="bar-type-olympic" value="45" />
+	     	<label for="bar-type-olympic">Olympic</label>
+
+	     	<input type="radio" name="bar-type" id="bar-type-standard" value="20"  />
+	     	<label for="bar-type-standard">Standard</label>
+			</fieldset>
+		</div>
 
 	</div>
-
-	<div data-role="footer" data-theme="d">
-		<h4>&copy; 2012 Nicholas Munson</h4>
+	<div data-role="footer" class="ui-bar" data-theme="d">
+		<h4 style="display: inline-block; margin-left: 0px; margin-right: 10px">Related links:</h4>
+		<a href="https://github.com/nmunson/warmup-calculator" data-role="button" data-inline="true">Fork on Github</a>
+		<a href="https://github.com/nmunson/warmup-calculator/issues" data-role="button" data-inline="true">Issues</a>
 	</div>
 </div>
 
