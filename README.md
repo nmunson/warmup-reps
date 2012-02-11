@@ -45,7 +45,8 @@ programs folder.
 
 New programs are welcome in pull requests.  Add them to the programs folder, 
 then push them into the programs array after loading it with an Ajax call 
-synchronously:
+synchronously.  All of the links and pages will be automatically added for the
+new program, and no other changes are needed.  
 
     $.ajax({
 	    url: 'programs/starting_strength.json',
