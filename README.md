@@ -49,7 +49,7 @@ synchronously.  All of the links and pages will be automatically added for the
 new program, and no other changes are needed.  
 
     $.ajax({
-	    url: 'programs/starting_strength.json',
+	    url: 'programs/new_program.json',
 	    dataType: 'json',
 	    success: function(data) {
             warmupApp.programs.push(data);
