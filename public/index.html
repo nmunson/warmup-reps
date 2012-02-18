@@ -145,6 +145,13 @@
 					$('#' + shortTitle + "-" + shortExerciseName + '-warmup')
 						.data('workouts', warmupApp.programs[i].exercises[j]);
 
+					$('.ui-slider').live('mouseup', function() {
+						updateWorkout($(this).parent().siblings('ul'), $(this).siblings('input').val());
+					});
+					$('.ui-slider').live('touchend', function() {
+						updateWorkout($(this).parent().siblings('ul'), $(this).siblings('input').val());
+					});
+
 					//add each set
 					for (k = 0; k < warmupApp.programs[i].exercises[j].workouts.length; k++) {
 						var workout = warmupApp.programs[i].exercises[j].workouts[k];
@@ -156,13 +163,6 @@
 					}
 				}							
 			}
-
-			$('div').filter(function() {
-				return this.id.match(/-weight-container/);
-			})
-			.change(function() {
-				updateWorkout($(this).next(), $(this).find('input').val());
-			});
 
 			initializePreferences();
 
