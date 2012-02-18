@@ -151,6 +151,9 @@
 					$('.ui-slider').live('touchend', function() {
 						updateWorkout($(this).parent().siblings('ul'), $(this).siblings('input').val());
 					});
+					$('#' + shortTitle + "-" + shortExerciseName + '-weight').live('blur', function() {
+						updateWorkout($(this).parent().siblings('ul'), $(this).val());
+					})
 
 					//add each set
 					for (k = 0; k < warmupApp.programs[i].exercises[j].workouts.length; k++) {
