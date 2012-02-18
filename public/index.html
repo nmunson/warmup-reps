@@ -176,18 +176,38 @@
 		function initializePreferences() {
 			if ($.cookie('bar_type') != undefined) {
 				$('input[name="bar-type"]').prop("checked", false);
-				$('input[id="' + $.cookie('bar_type') + '"]').prop("checked", true).checkboxradio("refresh");
+				try	{
+					$('input[id="' + $.cookie('bar_type') + '"]').prop("checked", true).checkboxradio("refresh");
+				}
+				catch (err) {
+					console.log(err);
+				}
 				$('input').attr('min', warmupApp.barWeight().toString());
 			}
 			else {
-				$('input[id="bar-type-olympic"]').prop("checked", true).checkboxradio("refresh");
+				try {
+					$('input[id="bar-type-olympic"]').prop("checked", true).checkboxradio("refresh");
+				}
+				catch (err) {
+					console.log(err);
+				}
 			}
 			if ($.cookie('units') != undefined) {
 				$('input[name="units"]').prop("checked", false);
-				$('input[id="' + $.cookie('units') + '"]').prop("checked", true).checkboxradio("refresh");
+				try {
+					$('input[id="' + $.cookie('units') + '"]').prop("checked", true).checkboxradio("refresh");	
+				}
+				catch (err) {
+					console.log(err);
+				}
 			}
 			else {
-				$('input[id="units-pounds"]').prop("checked", true).checkboxradio("refresh");
+				try {
+					$('input[id="units-pounds"]').prop("checked", true).checkboxradio("refresh");
+				}
+				catch (err) {
+					console.log(err);
+				}
 			}
 		}
 
