@@ -40,10 +40,10 @@
 		var warmupApp = {
 			"metric" : false,
 			barWeight : function() {
-				if ($.cookie('bar_type') == 'bar-type-olympic' || $('input[name="bar-type"]:checked').val() == 45)
-					return warmupApp.metric ? 20 : 45;
-				else
+				if ($.cookie('bar_type') == 'bar-type-standard')
 					return warmupApp.metric ? 10 : 20;
+				else
+					return warmupApp.metric ? 20 : 45;
 			},
 			weights : function() {
 				if (warmupApp.metric)
