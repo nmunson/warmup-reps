@@ -109,7 +109,8 @@
 
 				//generate page for program
 				$('body').append('<div data-role="page" id="' + shortTitle + '"> \
-					<div data-role="header"><h1>WarmupReps.com</h1></div> \
+					<div data-role="header"><h1>WarmupReps.com</h1> \
+					<a href="#main" data-icon="home" data-iconpos="notext" data-direction="reverse">Home</a></div> \
 					<div data-role="content"> \
 					<h2>' + warmupApp.programs[i].title + '</h2> \
 					<p>Choose an exercise from the program.</p> \
@@ -133,7 +134,8 @@
 
 					//generate page for each exercise
 					$('body').append('<div data-role="page" id="' + shortTitle + "-" + shortExerciseName + '"> \
-						<div data-role="header"><h1>WarmupReps.com</h1></div> \
+						<div data-role="header"><h1>WarmupReps.com</h1> \
+						<a href="#main" data-icon="home" data-iconpos="notext" data-direction="reverse">Home</a></div> \
 						<div data-role="content"><h2>' + warmupApp.programs[i].exercises[j].name + '</h2> \
 						<p>Choose your working weight.  Your warmup sets will then be calculated as well as the weights you need to put on each bar side.</p>	\
 				   		<div id="' + shortTitle + "-" + shortExerciseName + '-weight-container"><label for="' + shortTitle + "-" + shortExerciseName + '-weight">Weight:</label> \
