@@ -67,6 +67,16 @@
 				async: false
 			});
 
+			$.ajax({
+				url: 'programs/stronglifts_5x5.json',
+				dataType: 'json',
+				success: function(data) {
+			    warmupApp.programs.push(data);
+				},
+				async: false
+			});
+
+
 			if ($.cookie("units") == "units-kilograms")
 				warmupApp.metric = true;
 
