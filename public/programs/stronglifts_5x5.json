@@ -1,0 +1,116 @@
+{
+  "title" : "StrongLifts 5x5",
+  "exercises" : [{
+    "name" : "Squat",
+    "max" : 400,
+    "workouts" : [{
+        "sets" : "2",
+        "reps" : "5",
+        "multiplier" : 0
+      }, {
+        "sets" : "1",
+        "reps" : "5",
+        "multiplier" : 0.4
+      }, {
+        "sets" : "1",
+        "reps" : "3",
+        "multiplier" : 0.6
+      }, {
+        "sets" : "1",
+        "reps" : "2",
+        "multiplier" : 0.8
+      }, {
+        "sets" : "5",
+        "reps" : "5",
+        "multiplier" : 1.0
+      }]
+    },{
+    "name" : "Bench Press",
+    "max" : 300,
+    "workouts": [{
+        "sets" : "2",
+        "reps" : "5",
+        "multiplier" : 0
+      }, {
+        "sets" : "1",
+        "reps" : "5",
+        "multiplier" : 0.5
+      }, {
+        "sets" : "1",
+        "reps" : "3",
+        "multiplier" : 0.7
+      }, {
+        "sets" : "1",
+        "reps" : "2",
+        "multiplier" : 0.9
+      }, {
+        "sets" : "5",
+        "reps" : "5",
+        "multiplier" : 1.0
+      }]
+    },{
+    "name" : "Deadlift",
+    "max" : 500,
+    "workouts" : [{
+        "sets" : "2",
+        "reps" : "5",
+        "multiplier" : 0.4
+      }, {
+        "sets" : "1",
+        "reps" : "3",
+        "multiplier" : 0.6
+      }, {
+        "sets" : "1",
+        "reps" : "2",
+        "multiplier" : 0.85
+      }, {
+        "sets" : "1",
+        "reps" : "5",
+        "multiplier" : 1.0
+      }]
+    },{
+    "name" : "Overhead Press",
+    "max" : 180, 
+    "workouts" : [{
+        "sets" : "2",
+        "reps" : "5",
+        "multiplier" : 0
+      }, {
+        "sets" : "1",
+        "reps" : "5",
+        "multiplier" : 0.55
+      }, {
+        "sets" : "1",
+        "reps" : "3",
+        "multiplier" : 0.7
+      }, {
+        "sets" : "1",
+        "reps" : "2",
+        "multiplier" : 0.85
+      }, {
+        "sets" : "5",
+        "reps" : "5",
+        "multiplier" : 1.0
+      }]
+    },{
+    "name" : "Barbell Row",
+    "max" : 300,
+    "workouts": [{
+        "sets" : "2",
+        "reps" : "5",
+        "multiplier" : 0.4
+      }, {
+        "sets" : "1",
+        "reps" : "3",
+        "multiplier" : 0.7
+      }, {
+        "sets" : "1",
+        "reps" : "2",
+        "multiplier" : 0.9
+      }, {
+        "sets" : "5",
+        "reps" : "5",
+        "multiplier" : 1.0
+    }]
+  }]
+}

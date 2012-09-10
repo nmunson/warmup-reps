@@ -46,6 +46,9 @@
 				else
 					return warmupApp.metric ? 20 : 45;
 			},
+			stepSize : function() {
+				return warmupApp.metric ? 2.5 : 5;
+			},
 			weights : function() {
 				if (warmupApp.metric)
 					return [20, 15, 10, 5, 2.5, 1.25];
@@ -66,6 +69,16 @@
 				},
 				async: false
 			});
+
+			$.ajax({
+				url: 'programs/stronglifts_5x5.json',
+				dataType: 'json',
+				success: function(data) {
+			    warmupApp.programs.push(data);
+				},
+				async: false
+			});
+
 
 			if ($.cookie("units") == "units-kilograms")
 				warmupApp.metric = true;
@@ -208,6 +221,7 @@
 				catch (err) {
 					console.log(err);
 				}
+				$('input').attr('step', warmupApp.stepSize().toString());
 			}
 			else {
 				try {
@@ -339,10 +353,10 @@
 		}
 
 		function roundDown(num) {
-			if (num - (num % 5) < warmupApp.barWeight())
+			if (num - (num % warmupApp.stepSize()) < warmupApp.barWeight())
 				return warmupApp.barWeight();
 			else
-				return num - (num % 5);
+				return num - (num % warmupApp.stepSize());
 		}		
 
 	</script>
