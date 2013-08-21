@@ -339,7 +339,7 @@
 
 		function findWeight(exercise, weight) {
 			if (exercise.multiplier != undefined)
-				return roundDown(exercise.multiplier * weight);
+				return roundDown(exercise.multiplier * (weight-45));
 			else
 				return exercise.weight;
 		}
@@ -353,10 +353,10 @@
 		}
 
 		function roundDown(num) {
-			if (num - (num % warmupApp.stepSize()) < warmupApp.barWeight())
-				return warmupApp.barWeight();
-			else
-				return num - (num % warmupApp.stepSize());
+		//	if (num - (num % warmupApp.stepSize()) < warmupApp.barWeight())
+		//		return warmupApp.barWeight();
+		//	else
+				return num - (num % warmupApp.stepSize()) + warmupApp.barWeight();;
 		}		
 
 	</script>
