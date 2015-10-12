@@ -44,12 +44,12 @@
 				if ($.cookie('bar_type') == 'bar-type-standard')
 					return warmupApp.metric ? 10 : 20;
 				else if ($.cookie('bar_type') == 'bar-type-technique')
-					return warmupApp.metric ? 7.5  : 15;
+					return warmupApp.metric ?  7.5 : 15;
 				else
 					return warmupApp.metric ? 20 : 45;
 			},
 			stepSize : function() {
-				return warmupApp.metric ? 7.5 : 15;
+				return warmupApp.metric ? 2.5 : 5;
 			},
 			weights : function() {
 				if (warmupApp.metric)
