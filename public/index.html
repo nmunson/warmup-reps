@@ -43,6 +43,8 @@
 			barWeight : function() {
 				if ($.cookie('bar_type') == 'bar-type-standard')
 					return warmupApp.metric ? 10 : 20;
+				else if ($.cookie('bar_type') == 'bar-type-technique')
+					return warmupApp.metric ?  7.5 : 15;
 				else
 					return warmupApp.metric ? 20 : 45;
 			},
@@ -72,6 +74,15 @@
 
 			$.ajax({
 				url: 'programs/program_2.json',
+				dataType: 'json',
+				success: function(data) {
+			    warmupApp.programs.push(data);
+				},
+				async: false
+			});
+
+			$.ajax({
+				url: 'programs/max_single.json',
 				dataType: 'json',
 				success: function(data) {
 			    warmupApp.programs.push(data);
@@ -402,6 +413,10 @@
 
 	     	<input type="radio" name="bar-type" id="bar-type-standard" value="20"  />
 	     	<label for="bar-type-standard">Standard</label>
+
+	     	<input type="radio" name="bar-type" id="bar-type-technique" value="15"  />
+	     	<label for="bar-type-technique">Technique</label>
+
 			</fieldset>
 		</div>
 
