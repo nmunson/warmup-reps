@@ -1,0 +1,112 @@
+{
+  "title" : "Greyskull LP",
+  "exercises" : [{
+    "name" : "Squats",
+    "max" : 400,
+    "workouts" : [{
+        "sets" : "2",
+        "reps" : "5",
+        "multiplier" : 0.25
+      },{
+        "sets" : "1",
+        "reps" : "5",
+        "multiplier" : 0.42
+      }, {
+        "sets" : "1",
+        "reps" : "3",
+        "multiplier" : 0.58
+      }, {
+        "sets" : "1",
+        "reps" : "2",
+        "multiplier" : 0.75
+      }, {
+        "sets" : "2",
+        "reps" : "5",
+        "multiplier" : 1
+      },{
+        "sets" : "1",
+        "reps" : "5+",
+        "multiplier" : 1
+      }]
+    },{
+    "name" : "Bench",
+    "max" : 300,
+    "workouts" : [{
+        "sets" : "2",
+        "reps" : "5",
+        "multiplier" : 0.25
+      },{
+        "sets" : "1",
+        "reps" : "5",
+        "multiplier" : 0.42
+      }, {
+        "sets" : "1",
+        "reps" : "3",
+        "multiplier" : 0.58
+      }, {
+        "sets" : "1",
+        "reps" : "2",
+        "multiplier" : 0.75
+      }, {
+        "sets" : "2",
+        "reps" : "5",
+        "multiplier" : 1
+      },{
+        "sets" : "1",
+        "reps" : "5+",
+        "multiplier" : 1
+      }]
+    },{
+    "name" : "Overhead",
+    "max" : 500,
+    "workouts" : [{
+        "sets" : "2",
+        "reps" : "5",
+        "multiplier" : 0.25
+      },{
+        "sets" : "1",
+        "reps" : "5",
+        "multiplier" : 0.42
+      }, {
+        "sets" : "1",
+        "reps" : "3",
+        "multiplier" : 0.58
+      }, {
+        "sets" : "1",
+        "reps" : "2",
+        "multiplier" : 0.75
+      }, {
+        "sets" : "2",
+        "reps" : "5",
+        "multiplier" : 1
+      },{
+        "sets" : "1",
+        "reps" : "5+",
+        "multiplier" : 1
+      }]
+    },{
+    "name" : "Deadlifts",
+    "max" : 500,
+    "workouts" : [{
+        "sets" : "2",
+        "reps" : "5",
+        "multiplier" : 0.25
+      },{
+        "sets" : "1",
+        "reps" : "5",
+        "multiplier" : 0.42
+      }, {
+        "sets" : "1",
+        "reps" : "3",
+        "multiplier" : 0.58
+      }, {
+        "sets" : "1",
+        "reps" : "2",
+        "multiplier" : 0.75
+      }, {
+        "sets" : "1",
+        "reps" : "5+",
+        "multiplier" : 1
+      }]
+  }]
+}
