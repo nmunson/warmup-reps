@@ -177,6 +177,11 @@
 					$('#' + shortTitle + "-" + shortExerciseName + '-warmup')
 						.data('workouts', warmupApp.programs[i].exercises[j]);
 
+					// Update warmup sets on slider input change using arrows  
+					$('.ui-slider-input').live('change', function(){
+						updateWorkout($(this).parent().siblings('ul'), this.value);
+					});
+
 					$('.ui-slider').live('mouseup', function() {
 						updateWorkout($(this).parent().siblings('ul'), $(this).siblings('input').val());
 					});
