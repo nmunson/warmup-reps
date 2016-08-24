@@ -45,6 +45,8 @@
 					return warmupApp.metric ? 10 : 20;
 				else if ($.cookie('bar_type') == 'bar-type-technique')
 					return warmupApp.metric ?  7.5 : 15;
+				else if ($.cookie('bar_type') == 'bar-type-womens')
+					return warmupApp.metric ? 15 : 35;
 				else
 					return warmupApp.metric ? 20 : 45;
 			},
