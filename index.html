@@ -45,6 +45,8 @@
 					return warmupApp.metric ? 10 : 20;
 				else if ($.cookie('bar_type') == 'bar-type-technique')
 					return warmupApp.metric ?  7.5 : 15;
+				else if ($.cookie('bar_type') == 'bar-type-womens')
+					return warmupApp.metric ? 15 : 35;
 				else
 					return warmupApp.metric ? 20 : 45;
 			},
@@ -407,15 +409,18 @@
 	     	<label for="units-kilograms">Kilograms</label>
 	    </fieldset>
 	    <fieldset data-role="controlgroup" data-type="horizontal" >
-			<legend>Bar type:</legend>
+			<legend>Bar type (in lbs):</legend>
 	     	<input type="radio" name="bar-type" id="bar-type-olympic" value="45" />
-	     	<label for="bar-type-olympic">Olympic</label>
+	     	<label for="bar-type-olympic">Olympic (45)</label>
+	     	
+	     	<input type="radio" name="bar-type" id="bar-type-womens" value="35"  />
+	     	<label for="bar-type-womens">Womens (35)</label>
 
 	     	<input type="radio" name="bar-type" id="bar-type-standard" value="20"  />
-	     	<label for="bar-type-standard">Standard</label>
+	     	<label for="bar-type-standard">Standard (20)</label>
 
 	     	<input type="radio" name="bar-type" id="bar-type-technique" value="15"  />
-	     	<label for="bar-type-technique">Technique</label>
+	     	<label for="bar-type-technique">Technique (15)</label>
 
 			</fieldset>
 		</div>
