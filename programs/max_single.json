@@ -1,0 +1,100 @@
+{
+  "title" : "Max Single",
+  "exercises" : [{
+    "name" : "Squats",
+    "max" : 400,
+    "workouts" : [{
+        "sets" : "1",
+        "reps" : "5",
+        "multiplier" : 0
+      }, {
+        "sets" : "1",
+        "reps" : "5",
+        "multiplier" : 0.4
+      }, {
+        "sets" : "1",
+        "reps" : "5",
+        "multiplier" : 0.6
+      }, {
+        "sets" : "1",
+        "reps" : "3",
+        "multiplier" : 0.7
+      },{
+        "sets" : "1",
+        "reps" : "1",
+        "multiplier" : 0.8
+      },{
+        "sets" : "1",
+        "reps" : "1",
+        "multiplier" : 0.9
+      }, {
+        "sets" : "1",
+        "reps" : "1",
+        "multiplier" : 1.0
+      }]
+    },{
+    "name" : "Bench",
+    "max" : 300,
+    "workouts" : [{
+        "sets" : "1",
+        "reps" : "5",
+        "multiplier" : 0
+      }, {
+        "sets" : "1",
+        "reps" : "5",
+        "multiplier" : 0.4
+      }, {
+        "sets" : "1",
+        "reps" : "5",
+        "multiplier" : 0.6
+      }, {
+        "sets" : "1",
+        "reps" : "3",
+        "multiplier" : 0.7
+      },{
+        "sets" : "1",
+        "reps" : "1",
+        "multiplier" : 0.8
+      },{
+        "sets" : "1",
+        "reps" : "1",
+        "multiplier" : 0.9
+      }, {
+        "sets" : "1",
+        "reps" : "1",
+        "multiplier" : 1.0
+      }]
+    },{
+    "name" : "Deadlifts",
+    "max" : 500,
+    "workouts" : [{
+        "sets" : "1",
+        "reps" : "5",
+        "multiplier" : 0
+      }, {
+        "sets" : "1",
+        "reps" : "5",
+        "multiplier" : 0.4
+      }, {
+        "sets" : "1",
+        "reps" : "5",
+        "multiplier" : 0.6
+      }, {
+        "sets" : "1",
+        "reps" : "3",
+        "multiplier" : 0.7
+      },{
+        "sets" : "1",
+        "reps" : "1",
+        "multiplier" : 0.8
+      },{
+        "sets" : "1",
+        "reps" : "1",
+        "multiplier" : 0.9
+      }, {
+        "sets" : "1",
+        "reps" : "1",
+        "multiplier" : 1.0
+      }]
+  }]
+}
