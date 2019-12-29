@@ -2,7 +2,7 @@
   "title" : "5x5",
   "exercises" : [{
     "name" : "Squat",
-    "max" : 400,
+    "max" : 600,
     "workouts" : [{
         "sets" : "2",
         "reps" : "5",
@@ -26,7 +26,7 @@
       }]
     },{
     "name" : "Bench Press",
-    "max" : 300,
+    "max" : 500,
     "workouts": [{
         "sets" : "2",
         "reps" : "5",
@@ -50,7 +50,7 @@
       }]
     },{
     "name" : "Deadlift",
-    "max" : 500,
+    "max" : 700,
     "workouts" : [{
         "sets" : "2",
         "reps" : "5",
@@ -70,7 +70,7 @@
       }]
     },{
     "name" : "Overhead Press",
-    "max" : 180, 
+    "max" : 400, 
     "workouts" : [{
         "sets" : "2",
         "reps" : "5",
