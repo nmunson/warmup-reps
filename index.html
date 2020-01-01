@@ -91,6 +91,15 @@
 				},
 				async: false
 			});
+			
+			$.ajax({
+				url: 'programs/greyskull_lp.json',
+				dataType: 'json',
+				success: function(data) {
+			    warmupApp.programs.push(data);
+				},
+				async: false
+			});
 
 
 			if ($.cookie("units") == "units-kilograms")
