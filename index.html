@@ -47,7 +47,7 @@
 					return warmupApp.metric ?  7.5 : 15;
 				else if ($.cookie('bar_type') == 'bar-type-womens')
 					return warmupApp.metric ? 15 : 35;
-				else if ($.cookie('bar_type') == 'squat-bar')
+				else if ($.cookie('bar_type') == 'bar-type-squat')
 					return warmupApp.metric ? 25 : 55;
 				else
 					return warmupApp.metric ? 20 : 45;
@@ -432,6 +432,9 @@
 
 	     	<input type="radio" name="bar-type" id="bar-type-technique" value="15"  />
 	     	<label for="bar-type-technique">Technique (15)</label>
+		
+		<input type="radio" name="bar-type" id="bar-type-squat" value="55"  />
+	     	<label for="bar-type-squat">Squat (55)</label>
 
 			</fieldset>
 		</div>
