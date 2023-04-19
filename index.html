@@ -1,11 +1,11 @@
 
-<!DOCTYPE html> 
-<html> 
+<!DOCTYPE html>
+<html>
 
 <head>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1"> 
-	<title>WarmupReps.com</title> 
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>WarmupReps.com</title>
 	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.css" />
 	<link rel="apple-touch-icon" href="/images/apple-touch-icon-57x57.png" />
 	<link rel="apple-touch-icon" sizes="72x72" href="/images/apple-touch-icon-72x72.png" />
@@ -18,8 +18,8 @@
 	<style type="text/css">
 		/* issue 1259, pull request https://github.com/jquery/jquery-mobile/pull/2533 */
 		.ui-footer, .ui-page-fullscreen .ui-header, .ui-page-fullscreen .ui-footer {
-			box-sizing: border-box; 
-			-webkit-box-sizing: border-box; 
+			box-sizing: border-box;
+			-webkit-box-sizing: border-box;
 			-moz-box-sizing: border-box;
 		}
 	</style>
@@ -91,7 +91,7 @@
 				},
 				async: false
 			});
-			
+
 			$.ajax({
 				url: 'programs/greyskull_lp.json',
 				dataType: 'json',
@@ -110,7 +110,7 @@
 
 				warmupApp.metric = !warmupApp.metric;
 				$('input').attr('min', warmupApp.barWeight().toString());
-			
+
 				$(":input[min]").each(function() {
 					var currentMax = $(this).attr('max');
 
@@ -124,7 +124,7 @@
 				$('div').filter(function() {
 					return this.id.match(/-weight-container/);
 				}).trigger('change');
-					
+
 			});
 
 			$("input[name='bar-type']").change(function() {
@@ -139,8 +139,8 @@
 				var shortTitle = warmupApp.programs[i].title.toLowerCase().replace(/ /g, '-');
 
 				// generate homepage links
-				$('#programs').append('<p><a href="#' + shortTitle + 
-					'" data-role="button" id="' + shortTitle + 
+				$('#programs').append('<p><a href="#' + shortTitle +
+					'" data-role="button" id="' + shortTitle +
 					'-link">' + warmupApp.programs[i].title + '</a></p>');
 
 				//generate page for program
@@ -161,7 +161,7 @@
 				for (j = 0; j < warmupApp.programs[i].exercises.length; j++) {
 					shortExerciseName = warmupApp.programs[i].exercises[j].name.toLowerCase().replace(/ /g, '-');
 					$('#' + shortTitle + '-exercises').append(
-						'<p><a href="#' + shortTitle + "-" + shortExerciseName + '" data-role="button" id="' + 
+						'<p><a href="#' + shortTitle + "-" + shortExerciseName + '" data-role="button" id="' +
 						shortExerciseName + '-link">' + warmupApp.programs[i].exercises[j].name + '</a></p>');
 
 					if ($.cookie(shortExerciseName) != undefined)
@@ -176,7 +176,7 @@
 						<div data-role="content"><h2>' + warmupApp.programs[i].exercises[j].name + '</h2> \
 						<p>Choose your working weight.  Your warmup sets will then be calculated as well as the weights you need to put on each bar side.</p>	\
 				   		<div id="' + shortTitle + "-" + shortExerciseName + '-weight-container"><label for="' + shortTitle + "-" + shortExerciseName + '-weight">Weight:</label> \
-				   		<input type="range" name="' + shortTitle + "-" + shortExerciseName + '-weight" id="' + shortTitle + "-" + shortExerciseName + '-weight" value="' + currentWeight + '" min="45" max="' + warmupApp.programs[i].exercises[j].max + '" step="5" />	\
+				   		<input pattern="[0-9]*" type="range" name="' + shortTitle + "-" + shortExerciseName + '-weight" id="' + shortTitle + "-" + shortExerciseName + '-weight" value="' + currentWeight + '" min="45" max="' + warmupApp.programs[i].exercises[j].max + '" step="5" />	\
 						</div><ul data-role="listview" data-inset="true" id="' + shortTitle + "-" + shortExerciseName + '-warmup"></ul> \
 						<p><a href="#' + shortTitle + '" data-direction="reverse" data-role="button">Choose another exercise</a></p>	\
 						</div><div data-role="footer" class="ui-bar" data-theme="d"><h4 style="display: inline-block; margin-left: 0px; margin-right: 10px">Related:</h4> \
@@ -203,11 +203,11 @@
 						var workout = warmupApp.programs[i].exercises[j].workouts[k];
 						var setWeight = findWeight(workout, $('#' + shortTitle + '-' + shortExerciseName + '-weight').val());
 
-						$('#' + shortTitle + "-" + shortExerciseName + '-warmup').append('<li>' + 
-							printSet(workout.sets, workout.reps, setWeight) + 
+						$('#' + shortTitle + "-" + shortExerciseName + '-warmup').append('<li>' +
+							printSet(workout.sets, workout.reps, setWeight) +
 							' (' + calculateBarbellWeights(setWeight) + ')</li>');
 					}
-				}							
+				}
 			}
 
 			initializePreferences();
@@ -238,7 +238,7 @@
 			if ($.cookie('units') != undefined) {
 				$('input[name="units"]').prop("checked", false);
 				try {
-					$('input[id="' + $.cookie('units') + '"]').prop("checked", true).checkboxradio("refresh");	
+					$('input[id="' + $.cookie('units') + '"]').prop("checked", true).checkboxradio("refresh");
 				}
 				catch (err) {
 					console.log(err);
@@ -270,11 +270,11 @@
 				var workout = workouts[i];
 				var setWeight = findWeight(workout, weight);
 
-				list.append('<li>' + 
-					printSet(workout.sets, workout.reps, setWeight) + 
+				list.append('<li>' +
+					printSet(workout.sets, workout.reps, setWeight) +
 					' (' + calculateBarbellWeights(setWeight) + ')</li>');
 			}
-			
+
 			try
 			{
 				list.listview('refresh');
@@ -310,33 +310,33 @@
 				else if (weight >= warmupApp.weights()[1]) {
 					weight_35 += 1;
 					weight -= warmupApp.weights()[1];
-					continue;					
+					continue;
 				}
 				else if (weight >= warmupApp.weights()[2]) {
 					weight_25 += 1;
 					weight -= warmupApp.weights()[2];
-					continue;					
+					continue;
 				}
 				else if (weight >= warmupApp.weights()[3]) {
 					weight_10 += 1;
 					weight -= warmupApp.weights()[3];
-					continue;					
+					continue;
 				}
 				else if (weight >= warmupApp.weights()[4]) {
 					weight_5 += 1;
 					weight -= warmupApp.weights()[4];
-					continue;					
+					continue;
 				}
 				else {
 					weight_2half += 1;
 					weight -= warmupApp.weights()[5];
-					continue;					
-				}				
+					continue;
+				}
 			}
 
 			var result = "";
 
-			if (weight_45 != 0) 
+			if (weight_45 != 0)
 				result += printWeightCountSubstring(weight_45, warmupApp.weights()[0].toString());
 			if (weight_35 != 0)
 				result += printWeightCountSubstring(weight_35, warmupApp.weights()[1].toString());
@@ -344,7 +344,7 @@
 				result += printWeightCountSubstring(weight_25, warmupApp.weights()[2].toString());
 			if (weight_10 != 0)
 				result += printWeightCountSubstring(weight_10, warmupApp.weights()[3].toString());
-			if (weight_5 != 0) 
+			if (weight_5 != 0)
 				result += printWeightCountSubstring(weight_5, warmupApp.weights()[4].toString());
 			if (weight_2half != 0)
 				result += printWeightCountSubstring(weight_2half, warmupApp.weights()[5].toString());
@@ -365,12 +365,12 @@
 			else
 				return exercise.weight;
 		}
-		
+
 		function printSet(sets, reps, weight) {
 			var output = sets + "x" + reps + " " + weight;
 			if (warmupApp.metric)
 				return output + " kgs"
-			else 
+			else
 				return output + " lbs"
 		}
 
@@ -379,13 +379,13 @@
 				return warmupApp.barWeight();
 			else
 				return num - (num % warmupApp.stepSize());
-		}		
+		}
 
 	</script>
-</head> 
+</head>
 
-	
-<body> 
+
+<body>
 
 
 <div data-role="page" id="main">
@@ -394,18 +394,18 @@
 		<h1>WarmupReps.com</h1>
 	</div>
 
-	<div data-role="content" >	
+	<div data-role="content" >
 		<h2>Getting Started</h2>
 
 		<p>Choose a program, exercise, and then set your target weight.  Your warmup sets will then be automatically
-		calculated.</p>	
+		calculated.</p>
 
 		<h3>Choose a program:</h3>
 		<div id="programs">
 		</div>
 
 		<hr />
-		
+
 		<h3>Settings</h3>
 		<div data-role="collapsible" data-content-theme="c">
 	    <h3>Configure units and bar type</h3>
@@ -421,7 +421,7 @@
 			<legend>Bar type (in lbs):</legend>
 	     	<input type="radio" name="bar-type" id="bar-type-olympic" value="45" />
 	     	<label for="bar-type-olympic">Olympic (45)</label>
-	     	
+
 	     	<input type="radio" name="bar-type" id="bar-type-womens" value="35"  />
 	     	<label for="bar-type-womens">Womens (35)</label>
 
