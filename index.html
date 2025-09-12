@@ -188,13 +188,16 @@
 						.data('workouts', warmupApp.programs[i].exercises[j]);
 
 					$(document).on('mouseup', '.ui-slider', function() {
-						updateWorkout($(this).parent().siblings('ul'), $(this).siblings('input').val());
+						var $input = $(this).closest('div').find('input[type="range"]');
+						updateWorkout($input.parent().siblings('ul'), $input.val());
 					});
 					$(document).on('touchend', '.ui-slider', function() {
-						updateWorkout($(this).parent().siblings('ul'), $(this).siblings('input').val());
+						var $input = $(this).closest('div').find('input[type="range"]');
+						updateWorkout($input.parent().siblings('ul'), $input.val());
 					});
-					$(document).on('blur', '#' + shortTitle + "-" + shortExerciseName + '-weight', function() {
-						updateWorkout($(this).parent().siblings('ul'), $(this).val());
+					$(document).on('change', '#' + shortTitle + "-" + shortExerciseName + '-weight', function() {
+						var $ul = $(this).closest('div[id$="-weight-container"]').siblings('ul');
+						updateWorkout($ul, $(this).val());
 					})
 
 					//add each set
@@ -286,6 +289,7 @@
 		}
 
 		function calculateBarbellWeights(weight) {
+			weight = Number(weight); // Ensure weight is a number
 			weight -= warmupApp.barWeight();
 
 			if (weight === 0)
