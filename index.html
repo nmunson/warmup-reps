@@ -40,11 +40,13 @@
 		var warmupApp = {
 			"metric" : false,
 			barWeight : function() {
-				if ($.cookie('bar_type') == 'bar-type-standard')
+				var barType = (localStorage.getItem('bar_type') || '').toLowerCase().trim();
+
+				if (barType === 'bar-type-standard')
 					return warmupApp.metric ? 10 : 20;
-				else if ($.cookie('bar_type') == 'bar-type-technique')
+				else if (barType === 'bar-type-technique')
 					return warmupApp.metric ?  7.5 : 15;
-				else if ($.cookie('bar_type') == 'bar-type-womens')
+				else if (barType === 'bar-type-womens')
 					return warmupApp.metric ? 15 : 35;
 				else
 					return warmupApp.metric ? 20 : 45;
@@ -101,12 +103,11 @@
 			});
 
 
-			if ($.cookie("units") == "units-kilograms")
+			if (localStorage.getItem("units") == "units-kilograms")
 				warmupApp.metric = true;
 
 			$("input[name='units']").change(function() {
-				$.cookie('units', $(this).attr('id'), { expires: 365 });
-
+				localStorage.setItem('units', $(this).attr('id'));
 				warmupApp.metric = !warmupApp.metric;
 				$('input').attr('min', warmupApp.barWeight().toString());
 			
@@ -127,11 +128,13 @@
 			});
 
 			$("input[name='bar-type']").change(function() {
-				$.cookie('bar_type', $(this).attr('id'), { expires: 365 });
-				$('input').attr('min', warmupApp.barWeight().toString());
-				$('div').filter(function() {
-					return this.id.match(/-weight-container/);
-				}).trigger('change');
+				if (this.tagName === 'INPUT' && this.type === 'radio') {
+					localStorage.setItem('bar_type', this.id);
+					$('input').attr('min', warmupApp.barWeight().toString());
+					$('div').filter(function() {
+						return this.id.match(/-weight-container/);
+					}).trigger('change');
+				}
 			});
 
 			for (i = 0; i < warmupApp.programs.length; i++) {
@@ -163,8 +166,8 @@
 						'<p><a href="#' + shortTitle + "-" + shortExerciseName + '" data-role="button" id="' + 
 						shortExerciseName + '-link">' + warmupApp.programs[i].exercises[j].name + '</a></p>');
 
-					if ($.cookie(shortExerciseName) != undefined)
-						var currentWeight = $.cookie(shortExerciseName);
+					if (localStorage.getItem(shortExerciseName) != undefined && localStorage.getItem(shortExerciseName) != null)
+						var currentWeight = localStorage.getItem(shortExerciseName);
 					else
 						var currentWeight = "100";
 
@@ -211,10 +214,10 @@
 		});
 
 		function initializePreferences() {
-			if ($.cookie('bar_type') != undefined) {
+			if (localStorage.getItem('bar_type') != undefined && localStorage.getItem('bar_type') != null) {
 				$('input[name="bar-type"]').prop("checked", false);
 				try	{
-					$('input[id="' + $.cookie('bar_type') + '"]').prop("checked", true).checkboxradio("refresh");
+					$('input[id="' + localStorage.getItem('bar_type') + '"]').prop("checked", true).checkboxradio("refresh");
 				}
 				catch (err) {
 					console.log(err);
@@ -229,10 +232,10 @@
 					console.log(err);
 				}
 			}
-			if ($.cookie('units') != undefined) {
+			if (localStorage.getItem('units') != undefined && localStorage.getItem('units') != null) {
 				$('input[name="units"]').prop("checked", false);
 				try {
-					$('input[id="' + $.cookie('units') + '"]').prop("checked", true).checkboxradio("refresh");	
+					$('input[id="' + localStorage.getItem('units') + '"]').prop("checked", true).checkboxradio("refresh");	
 				}
 				catch (err) {
 					console.log(err);
@@ -252,7 +255,7 @@
 		function updateWorkout(list, weight) {
 			var workouts = [];
 
-			$.cookie(list.data('workouts').name.toLowerCase().replace(/ /g, '-'), weight, { expires: 30 });
+			localStorage.setItem(list.data('workouts').name.toLowerCase().replace(/ /g, '-'), weight);
 
 			for (i = 0; i < list.data('workouts').workouts.length; i++) {
 				workouts.push(list.data('workouts').workouts[i]);
