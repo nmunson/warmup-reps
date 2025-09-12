@@ -187,14 +187,6 @@
 					$('#' + shortTitle + "-" + shortExerciseName + '-warmup')
 						.data('workouts', warmupApp.programs[i].exercises[j]);
 
-					$(document).on('mouseup', '.ui-slider', function() {
-						var $input = $(this).closest('div').find('input[type="range"]');
-						updateWorkout($input.parent().siblings('ul'), $input.val());
-					});
-					$(document).on('touchend', '.ui-slider', function() {
-						var $input = $(this).closest('div').find('input[type="range"]');
-						updateWorkout($input.parent().siblings('ul'), $input.val());
-					});
 					$(document).on('change', '#' + shortTitle + "-" + shortExerciseName + '-weight', function() {
 						var $ul = $(this).closest('div[id$="-weight-container"]').siblings('ul');
 						updateWorkout($ul, $(this).val());
