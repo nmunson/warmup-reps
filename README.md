@@ -57,11 +57,6 @@ new program, and no other changes are needed.
 	    async: false
     });
 
-## Copyright
-
-Copyright 2012 Nicholas Munson
-All rights reserved.
-
 ## License
 
 [GPLv3](http://www.gnu.org/licenses/gpl-3.0.html)
