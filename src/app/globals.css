@@ -53,8 +53,10 @@ a {
 .header-title {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.45em;
   min-width: 0;
+  max-width: 100%;
 }
 
 .ui-header {
@@ -73,9 +75,35 @@ a {
   white-space: nowrap;
 }
 
+.ui-header .ui-title > .header-title > span:last-child {
+  min-width: 0;
+}
+
 .header-title-icon {
   width: 2.2em;
   height: 2.2em;
+}
+
+@media (max-width: 430px) {
+  .ui-header .ui-title {
+    padding: 0.55rem 0.45rem 0.55rem 3.15rem;
+    font-size: 0.97rem;
+  }
+
+  .header-title {
+    gap: 0.35em;
+  }
+
+  .header-title-icon {
+    width: 1.9em;
+    height: 1.9em;
+  }
+
+  .ui-header .header-home-button.ui-btn {
+    left: 0.45rem;
+    width: 2rem;
+    height: 2rem;
+  }
 }
 
 .ui-header .header-home-button.ui-btn {
