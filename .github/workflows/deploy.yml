@@ -46,9 +46,6 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: Configure S3 website hosting
-        run: aws s3 website s3://${S3_BUCKET} --index-document index.html --error-document 404.html
-
       - name: Sync static assets to S3
         run: aws s3 sync ./out s3://${S3_BUCKET} --delete --exclude "*.html" --cache-control "public, max-age=31536000, immutable"
 
