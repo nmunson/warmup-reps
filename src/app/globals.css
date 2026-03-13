@@ -54,10 +54,23 @@ a {
   display: inline-flex;
   align-items: center;
   gap: 0.45em;
+  min-width: 0;
 }
 
 .ui-header {
   position: relative;
+}
+
+.ui-header .ui-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3.3rem;
+  margin: 0;
+  padding: 0.55rem 0.85rem 0.55rem 3.5rem;
+  overflow: visible;
+  text-overflow: clip;
+  white-space: nowrap;
 }
 
 .header-title-icon {
