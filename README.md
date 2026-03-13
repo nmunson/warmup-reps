@@ -31,10 +31,11 @@ example program:
       }]
     }
 
-Each exercise is defined with a name, a max weight, and an array of 
+Each exercise is defined with a name, a max weight, and an array of
 workouts that include sets, reps, and the multiplier for the working
-weight.  For a more complete example, view starting_strength.json in the
-programs folder.
+weight. For a more complete example, view `starting_strength.json` in the
+`programs` folder. The Next.js app loads these files through
+`src/lib/programs.js`.
 
 ## Contribute
 
@@ -43,19 +44,10 @@ programs folder.
 * Commit.
 * Send me a pull request.
 
-New programs are welcome in pull requests.  Add them to the programs folder, 
-then push them into the programs array after loading it with an Ajax call 
-synchronously.  All of the links and pages will be automatically added for the
-new program, and no other changes are needed.  
-
-    $.ajax({
-	    url: 'programs/new_program.json',
-	    dataType: 'json',
-	    success: function(data) {
-            warmupApp.programs.push(data);
-	    },
-	    async: false
-    });
+New programs are welcome in pull requests. Add the JSON file to the
+`programs` folder, then register its filename in `src/lib/programs.js`.
+The app will generate the corresponding program and exercise routes from
+that data.
 
 ## License
 

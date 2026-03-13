@@ -1,0 +1,8 @@
+.next
+out
+node_modules
+npm-debug.log*
+.next-dev.log
+.next-dev.err.log
+blank-page.png
+blank-page-fixed.png
