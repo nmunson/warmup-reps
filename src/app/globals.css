@@ -68,7 +68,8 @@ a {
   align-items: center;
   justify-content: center;
   min-height: 3.3rem;
-  margin: 0;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
   padding: 0.55rem 0.85rem 0.55rem 3.5rem;
   overflow: visible;
   text-overflow: clip;
