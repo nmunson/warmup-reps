@@ -23,6 +23,10 @@ export function isMetric(units) {
 }
 
 export function barWeight(metric, barType) {
+  if (barType === "bar-type-squat") {
+    return metric ? 25 : 55;
+  }
+
   if (barType === "bar-type-standard") {
     return metric ? 10 : 20;
   }

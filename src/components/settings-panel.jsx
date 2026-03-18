@@ -8,6 +8,7 @@ const UNIT_OPTIONS = [
 ];
 
 const BAR_OPTIONS = [
+  { id: "bar-type-squat", label: "Squat (55)" },
   { id: "bar-type-olympic", label: "Olympic (45)" },
   { id: "bar-type-womens", label: "Womens (35)" },
   { id: "bar-type-standard", label: "Standard (20)" },
