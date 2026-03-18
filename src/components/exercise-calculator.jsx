@@ -21,16 +21,24 @@ export function ExerciseCalculator({ exercise }) {
   const [units, setUnits] = useState("units-pounds");
   const [barType, setBarType] = useState("bar-type-olympic");
   const [targetWeight, setTargetWeight] = useState(100);
+  const [weightInput, setWeightInput] = useState("100");
   const [isLoaded, setIsLoaded] = useState(false);
+
+  const updateTargetWeight = (nextWeight) => {
+    setTargetWeight(nextWeight);
+    setWeightInput(String(nextWeight));
+  };
 
   useEffect(() => {
     const nextUnits = getStoredUnits();
     const nextBarType = getStoredBarType();
     const storedWeight = localStorage.getItem(getExerciseStorageKey(exercise.name));
+    const nextWeight = storedWeight ? Number(storedWeight) : 100;
 
     setUnits(nextUnits);
     setBarType(nextBarType);
-    setTargetWeight(storedWeight ? Number(storedWeight) : 100);
+    setTargetWeight(nextWeight);
+    setWeightInput(String(nextWeight));
     setIsLoaded(true);
   }, [exercise.name]);
 
@@ -63,6 +71,26 @@ export function ExerciseCalculator({ exercise }) {
   const minimum = barWeight(metric, barType);
   const step = stepSize(metric);
   const safeWeight = Math.min(roundDown(targetWeight, metric, barType), maximum);
+
+  const handleWeightInputChange = (event) => {
+    const nextValue = event.target.value;
+    setWeightInput(nextValue);
+
+    if (nextValue === "") {
+      return;
+    }
+
+    const parsedWeight = Number(nextValue);
+
+    if (!Number.isNaN(parsedWeight)) {
+      setTargetWeight(parsedWeight);
+    }
+  };
+
+  const handleWeightInputBlur = () => {
+    setWeightInput(String(safeWeight));
+  };
+
   const workouts = exercise.workouts.map((workout) => {
     const setWeight = findWeight(workout, safeWeight, metric, barType);
 
@@ -91,16 +119,17 @@ export function ExerciseCalculator({ exercise }) {
             className="target-weight-input"
             max={maximum}
             min={minimum}
-            onChange={(event) => setTargetWeight(Number(event.target.value))}
+            onBlur={handleWeightInputBlur}
+            onChange={handleWeightInputChange}
             step={step}
             type="number"
-            value={safeWeight}
+            value={weightInput}
           />
           <input
             id="target-weight"
             max={maximum}
             min={minimum}
-            onChange={(event) => setTargetWeight(Number(event.target.value))}
+            onChange={(event) => updateTargetWeight(Number(event.target.value))}
             step={step}
             type="range"
             value={safeWeight}
