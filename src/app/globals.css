@@ -253,6 +253,12 @@ legend {
   max-width: 30rem;
 }
 
+@media (min-width: 900px) {
+  .settings-page-content {
+    max-width: 40rem;
+  }
+}
+
 .ui-page {
   display: block;
   min-height: 100vh;
