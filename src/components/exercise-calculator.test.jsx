@@ -73,6 +73,42 @@ describe("ExerciseCalculator", () => {
     });
   });
 
+  it("allows typing a full weight without rewriting the input mid-edit", async () => {
+    render(<ExerciseCalculator exercise={exercise} />);
+
+    const input = screen.getByLabelText("Weight value");
+
+    fireEvent.change(input, {
+      target: { value: "170" }
+    });
+
+    expect(input).toHaveValue(170);
+
+    await waitFor(() => {
+      expect(screen.getByText(/3x5 170 lbs \(45 10 5 2.5\)/)).toBeInTheDocument();
+    });
+
+    expect(window.localStorage.getItem("bench")).toBe("170");
+  });
+
+  it("allows clearing the input temporarily and restores the minimum safe value on blur", async () => {
+    render(<ExerciseCalculator exercise={exercise} />);
+
+    const input = screen.getByLabelText("Weight value");
+
+    fireEvent.change(input, {
+      target: { value: "" }
+    });
+
+    expect(input).toHaveValue(null);
+
+    fireEvent.blur(input);
+
+    await waitFor(() => {
+      expect(input).toHaveValue(100);
+    });
+  });
+
   it("uses stored metric settings and recalculates the visible units", async () => {
     window.localStorage.setItem("units", "units-kilograms");
     window.localStorage.setItem("bar_type", "bar-type-olympic");
