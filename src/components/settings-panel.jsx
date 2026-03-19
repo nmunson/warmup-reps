@@ -2,20 +2,24 @@
 
 import React from "react";
 
+import { barTypeLabel, isMetric } from "@/lib/warmup";
+
 const UNIT_OPTIONS = [
   { id: "units-pounds", label: "Pounds" },
   { id: "units-kilograms", label: "Kilograms" }
 ];
 
 const BAR_OPTIONS = [
-  { id: "bar-type-squat", label: "Squat (55)" },
-  { id: "bar-type-olympic", label: "Olympic (45)" },
-  { id: "bar-type-womens", label: "Womens (35)" },
-  { id: "bar-type-standard", label: "Standard (20)" },
-  { id: "bar-type-technique", label: "Technique (15)" }
+  { id: "bar-type-squat", name: "Squat" },
+  { id: "bar-type-olympic", name: "Olympic" },
+  { id: "bar-type-womens", name: "Womens" },
+  { id: "bar-type-standard", name: "Standard" },
+  { id: "bar-type-technique", name: "Technique" }
 ];
 
 export function SettingsPanel({ units, barType, onUnitsChange, onBarTypeChange }) {
+  const metric = isMetric(units);
+
   return (
     <div className="settings-panel">
       <fieldset className="settings-fieldset">
@@ -44,8 +48,8 @@ export function SettingsPanel({ units, barType, onUnitsChange, onBarTypeChange }
       </fieldset>
 
       <fieldset className="settings-fieldset">
-        <legend>Bar type (in lbs):</legend>
-        <div className="choice-row">
+        <legend>Bar type:</legend>
+        <div className="choice-row choice-row-nowrap">
           {BAR_OPTIONS.map((option) => (
             <label
               key={option.id}
@@ -62,7 +66,9 @@ export function SettingsPanel({ units, barType, onUnitsChange, onBarTypeChange }
                 type="radio"
                 value={option.id}
               />
-              <span className="choice-pill-label">{option.label}</span>
+              <span className="choice-pill-label">
+                {option.name} ({barTypeLabel(option.id, metric)})
+              </span>
             </label>
           ))}
         </div>

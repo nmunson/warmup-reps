@@ -42,6 +42,11 @@ export function barWeight(metric, barType) {
   return metric ? 20 : 45;
 }
 
+export function barTypeLabel(barType, metric) {
+  const weight = barWeight(metric, barType);
+  return `${weight} ${metric ? "kg" : "lb"}`;
+}
+
 export function stepSize(metric) {
   return metric ? 2.5 : 5;
 }

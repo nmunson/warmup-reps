@@ -341,6 +341,16 @@ legend {
   gap: 0.75em 1em;
 }
 
+.choice-row-nowrap {
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding-bottom: 0.1em;
+}
+
+.choice-row-nowrap .choice-pill {
+  flex: 0 0 auto;
+}
+
 .choice-row-wrap {
   flex-direction: column;
   align-items: flex-start;
