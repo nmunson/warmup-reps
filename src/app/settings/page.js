@@ -9,7 +9,7 @@ export default function SettingsPage() {
         <SettingsIcon className="lift-icon" />
         <span>Settings</span>
       </h2>
-      <p>Choose your preferred units and default barbell type for all calculations.</p>
+      <p>Choose your preferred units, default barbell type, and plate loading preferences.</p>
       <div className="settings-page-content">
         <SettingsForm />
       </div>

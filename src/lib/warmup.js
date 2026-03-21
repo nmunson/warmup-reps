@@ -18,6 +18,14 @@ export function getStoredBarType() {
   return localStorage.getItem("bar_type") || "bar-type-olympic";
 }
 
+export function getStoredIgnoreSmallestPlate() {
+  if (typeof window === "undefined") {
+    return false;
+  }
+
+  return localStorage.getItem("ignore_smallest_plate") === "true";
+}
+
 export function isMetric(units) {
   return units === "units-kilograms";
 }
@@ -51,8 +59,14 @@ export function stepSize(metric) {
   return metric ? 2.5 : 5;
 }
 
-export function availablePlates(metric) {
-  return metric ? [20, 15, 10, 5, 2.5, 1.25] : [45, 35, 25, 10, 5, 2.5];
+export function availablePlates(metric, ignoreSmallestPlate = false) {
+  const plates = metric ? [20, 15, 10, 5, 2.5, 1.25] : [45, 35, 25, 10, 5, 2.5];
+
+  if (!ignoreSmallestPlate) {
+    return plates;
+  }
+
+  return plates.slice(0, -1);
 }
 
 export function roundDown(value, metric, barType) {
@@ -75,14 +89,39 @@ export function formatSet(workout, weight, metric) {
   return `${workout.sets}x${workout.reps} ${weight} ${metric ? "kgs" : "lbs"}`;
 }
 
-export function calculateBarbellWeights(totalWeight, metric, barType) {
+export function achievableBarbellWeight(totalWeight, metric, barType, ignoreSmallestPlate = false) {
+  let workingWeight = Number(totalWeight) - barWeight(metric, barType);
+
+  if (workingWeight <= 0) {
+    return barWeight(metric, barType);
+  }
+
+  const plates = availablePlates(metric, ignoreSmallestPlate);
+  workingWeight /= 2;
+  let loadableWeightPerSide = 0;
+
+  while (workingWeight > 0) {
+    const plate = plates.find((value) => workingWeight >= value);
+
+    if (!plate) {
+      break;
+    }
+
+    loadableWeightPerSide += plate;
+    workingWeight = Number((workingWeight - plate).toFixed(5));
+  }
+
+  return Number((barWeight(metric, barType) + loadableWeightPerSide * 2).toFixed(5));
+}
+
+export function calculateBarbellWeights(totalWeight, metric, barType, ignoreSmallestPlate = false) {
   let workingWeight = Number(totalWeight) - barWeight(metric, barType);
 
   if (workingWeight <= 0) {
     return "Bar";
   }
 
-  const plates = availablePlates(metric);
+  const plates = availablePlates(metric, ignoreSmallestPlate);
   const counts = new Map();
   workingWeight /= 2;
 

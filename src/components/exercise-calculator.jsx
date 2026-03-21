@@ -5,12 +5,14 @@ import { useEffect, useState } from "react";
 
 import { LiftIcon } from "@/components/lift-icon";
 import {
+  achievableBarbellWeight,
   barWeight,
   calculateBarbellWeights,
   findWeight,
   formatSet,
   getExerciseStorageKey,
   getStoredBarType,
+  getStoredIgnoreSmallestPlate,
   getStoredUnits,
   isMetric,
   roundDown,
@@ -20,6 +22,7 @@ import {
 export function ExerciseCalculator({ exercise }) {
   const [units, setUnits] = useState("units-pounds");
   const [barType, setBarType] = useState("bar-type-olympic");
+  const [ignoreSmallestPlate, setIgnoreSmallestPlate] = useState(false);
   const [targetWeight, setTargetWeight] = useState(100);
   const [weightInput, setWeightInput] = useState("100");
   const [isLoaded, setIsLoaded] = useState(false);
@@ -32,11 +35,13 @@ export function ExerciseCalculator({ exercise }) {
   useEffect(() => {
     const nextUnits = getStoredUnits();
     const nextBarType = getStoredBarType();
+    const nextIgnoreSmallestPlate = getStoredIgnoreSmallestPlate();
     const storedWeight = localStorage.getItem(getExerciseStorageKey(exercise.name));
     const nextWeight = storedWeight ? Number(storedWeight) : 100;
 
     setUnits(nextUnits);
     setBarType(nextBarType);
+    setIgnoreSmallestPlate(nextIgnoreSmallestPlate);
     setTargetWeight(nextWeight);
     setWeightInput(String(nextWeight));
     setIsLoaded(true);
@@ -57,6 +62,14 @@ export function ExerciseCalculator({ exercise }) {
 
     localStorage.setItem("bar_type", barType);
   }, [barType, isLoaded]);
+
+  useEffect(() => {
+    if (!isLoaded) {
+      return;
+    }
+
+    localStorage.setItem("ignore_smallest_plate", String(ignoreSmallestPlate));
+  }, [ignoreSmallestPlate, isLoaded]);
 
   useEffect(() => {
     if (!isLoaded) {
@@ -92,11 +105,14 @@ export function ExerciseCalculator({ exercise }) {
   };
 
   const workouts = exercise.workouts.map((workout) => {
-    const setWeight = findWeight(workout, safeWeight, metric, barType);
+    const intendedSetWeight = findWeight(workout, safeWeight, metric, barType);
+    const setWeight = ignoreSmallestPlate
+      ? achievableBarbellWeight(intendedSetWeight, metric, barType, ignoreSmallestPlate)
+      : intendedSetWeight;
 
     return {
       description: formatSet(workout, setWeight, metric),
-      plates: calculateBarbellWeights(setWeight, metric, barType)
+      plates: calculateBarbellWeights(setWeight, metric, barType, ignoreSmallestPlate)
     };
   });
 

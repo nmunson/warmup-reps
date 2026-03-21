@@ -91,6 +91,28 @@ describe("ExerciseCalculator", () => {
     expect(window.localStorage.getItem("bench")).toBe("170");
   });
 
+  it("lowers displayed set weights to achievable loads when the smallest plates are ignored", async () => {
+    window.localStorage.setItem("units", "units-pounds");
+    window.localStorage.setItem("bar_type", "bar-type-olympic");
+    window.localStorage.setItem("ignore_smallest_plate", "true");
+
+    render(<ExerciseCalculator exercise={exercise} />);
+
+    await waitFor(() => {
+      expect(screen.getByText(/3x5 95 lbs \(25\)/)).toBeInTheDocument();
+    });
+
+    fireEvent.change(screen.getByLabelText("Weight value"), {
+      target: { value: "170" }
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText(/3x5 165 lbs \(45 10 5\)/)).toBeInTheDocument();
+    });
+
+    expect(window.localStorage.getItem("ignore_smallest_plate")).toBe("true");
+  });
+
   it("allows clearing the input temporarily and restores the minimum safe value on blur", async () => {
     render(<ExerciseCalculator exercise={exercise} />);
 
@@ -120,5 +142,18 @@ describe("ExerciseCalculator", () => {
     });
 
     expect(window.localStorage.getItem("units")).toBe("units-kilograms");
+  });
+
+  it("uses the smallest-plate preference in metric mode", async () => {
+    window.localStorage.setItem("units", "units-kilograms");
+    window.localStorage.setItem("bar_type", "bar-type-standard");
+    window.localStorage.setItem("ignore_smallest_plate", "true");
+    window.localStorage.setItem("bench", "77.5");
+
+    render(<ExerciseCalculator exercise={exercise} />);
+
+    await waitFor(() => {
+      expect(screen.getByText(/3x5 75 kgs \(20 10 2\.5\)/)).toBeInTheDocument();
+    });
   });
 });

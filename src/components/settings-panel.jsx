@@ -17,7 +17,18 @@ const BAR_OPTIONS = [
   { id: "bar-type-technique", name: "Technique" }
 ];
 
-export function SettingsPanel({ units, barType, onUnitsChange, onBarTypeChange }) {
+function ignoreSmallestPlateLabel(metric) {
+  return metric ? "Ignore 1.25kg plates" : "Ignore 2.5lb plates";
+}
+
+export function SettingsPanel({
+  units,
+  barType,
+  ignoreSmallestPlate,
+  onUnitsChange,
+  onBarTypeChange,
+  onIgnoreSmallestPlateChange
+}) {
   const metric = isMetric(units);
 
   return (
@@ -71,6 +82,27 @@ export function SettingsPanel({ units, barType, onUnitsChange, onBarTypeChange }
               </span>
             </label>
           ))}
+        </div>
+      </fieldset>
+
+      <fieldset className="settings-fieldset">
+        <legend>Preferences:</legend>
+        <div className="choice-row choice-row-wrap">
+          <label
+            className={`choice-pill ui-btn ui-corner-all ${
+              ignoreSmallestPlate ? "choice-pill-active" : ""
+            }`}
+            htmlFor="ignore-smallest-plate"
+          >
+            <input
+              checked={ignoreSmallestPlate}
+              id="ignore-smallest-plate"
+              name="ignore-smallest-plate"
+              onChange={(event) => onIgnoreSmallestPlateChange(event.target.checked)}
+              type="checkbox"
+            />
+            <span className="choice-pill-label">{ignoreSmallestPlateLabel(metric)}</span>
+          </label>
         </div>
       </fieldset>
     </div>
