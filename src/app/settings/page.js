@@ -1,6 +1,15 @@
 import { Footer, PageChrome } from "@/components/page-chrome";
 import { SettingsForm } from "@/components/settings-form";
 import { SettingsIcon } from "@/components/settings-icon";
+import { buildNoIndexMetadata } from "@/lib/seo";
+
+export function generateMetadata() {
+  return buildNoIndexMetadata({
+    title: "Settings",
+    description: "Update your units, barbell type, and plate loading preferences for WarmupReps.",
+    pathname: "/settings"
+  });
+}
 
 export default function SettingsPage() {
   return (

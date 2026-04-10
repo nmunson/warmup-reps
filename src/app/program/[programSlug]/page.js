@@ -5,10 +5,26 @@ import { LiftIcon } from "@/components/lift-icon";
 import { Footer, PageChrome } from "@/components/page-chrome";
 import { ProgramIcon } from "@/components/program-icon";
 import { getProgramBySlug, getPrograms } from "@/lib/programs";
+import { buildIndexableMetadata } from "@/lib/seo";
 
 export async function generateStaticParams() {
   const programs = await getPrograms();
   return programs.map((program) => ({ programSlug: program.slug }));
+}
+
+export async function generateMetadata({ params }) {
+  const { programSlug } = await params;
+  const program = await getProgramBySlug(programSlug);
+
+  if (!program) {
+    return {};
+  }
+
+  return buildIndexableMetadata({
+    title: `${program.title} Warmup Calculator`,
+    description: `Calculate warmup sets and plate loading for ${program.title}. Choose an exercise and get barbell-ready weights instantly.`,
+    pathname: `/program/${program.slug}`
+  });
 }
 
 export default async function ProgramPage({ params }) {
@@ -26,7 +42,6 @@ export default async function ProgramPage({ params }) {
           <span>{program.title}</span>
         </h2>
         <p>Choose an exercise from the program.</p>
-        <h3>Choose an exercise:</h3>
         <div className="exercise-list">
           {program.exercises.map((exercise) => (
             <Link

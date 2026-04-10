@@ -4,13 +4,23 @@ import { Footer, PageChrome } from "@/components/page-chrome";
 import { ProgramIcon } from "@/components/program-icon";
 import { SettingsIcon } from "@/components/settings-icon";
 import { getPrograms } from "@/lib/programs";
+import { buildIndexableMetadata } from "@/lib/seo";
+
+export function generateMetadata() {
+  return buildIndexableMetadata({
+    title: "Warmup Set Calculator and Barbell Plate Calculator",
+    description:
+      "Calculate warmup sets, barbell plate loading, and target weights for Starting Strength, Greyskull LP, 5x5, and other strength programs.",
+    pathname: "/"
+  });
+}
 
 export default async function HomePage() {
   const programs = await getPrograms();
 
   return (
     <PageChrome footer={<Footer />} homeHref="/">
-      <h2>Getting Started</h2>
+      <h2>Warmup Set Calculator</h2>
       <p>
         Choose a program, exercise, and then set your target weight. Your
         warmup sets will then be automatically calculated.

@@ -1,9 +1,41 @@
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 
+import {
+  DEFAULT_DESCRIPTION,
+  DEFAULT_TITLE,
+  SITE_NAME,
+  SITE_URL,
+  buildCanonical,
+  buildOpenGraph,
+  buildTwitter
+} from "@/lib/seo";
+
 export const metadata = {
-  title: "WarmupReps.com",
-  description: "Warmup set and plate loading calculator for common strength programs",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: `${DEFAULT_TITLE} | ${SITE_NAME}`,
+    template: `%s | ${SITE_NAME}`
+  },
+  description: DEFAULT_DESCRIPTION,
+  alternates: buildCanonical("/"),
+  openGraph: buildOpenGraph({
+    title: `${DEFAULT_TITLE} | ${SITE_NAME}`,
+    description: DEFAULT_DESCRIPTION,
+    pathname: "/"
+  }),
+  twitter: buildTwitter({
+    title: `${DEFAULT_TITLE} | ${SITE_NAME}`,
+    description: DEFAULT_DESCRIPTION
+  }),
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true
+    }
+  },
   icons: {
     icon: "/favicon.ico",
     apple: [
