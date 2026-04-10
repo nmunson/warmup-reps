@@ -1,4 +1,5 @@
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/next";
 
 export const metadata = {
   title: "WarmupReps.com",
@@ -25,6 +26,7 @@ export default function RootLayout({ children }) {
       </head>
       <body>
         <main className="site-shell">{children}</main>
+        <Analytics />
       </body>
     </html>
   );

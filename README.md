@@ -37,6 +37,25 @@ weight. For a more complete example, view `starting_strength.json` in the
 `programs` folder. The Next.js app loads these files through
 `src/lib/programs.js`.
 
+## Development
+
+Install dependencies with `npm install`, then run `npm run dev` for local
+development. Production builds use the standard Next.js server output via
+`npm run build`.
+
+## Deploying to Vercel
+
+This app is now configured as a standard Next.js application for Vercel,
+not a static export. To publish it on Vercel:
+
+1. Import the GitHub repository into Vercel.
+2. Keep the default framework preset as `Next.js`.
+3. Use the default build command `npm run build`.
+4. No custom output directory is needed.
+
+Vercel Analytics is enabled in the root layout using
+`@vercel/analytics/next`.
+
 ## Contribute
 
 * Fork the project.

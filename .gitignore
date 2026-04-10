@@ -1,5 +1,6 @@
 .next
 out
+.vercel
 node_modules
 npm-debug.log*
 .next-dev.log
