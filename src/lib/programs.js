@@ -1,5 +1,6 @@
 import { promises as fs } from "fs";
 import path from "path";
+import { fileURLToPath } from "url";
 
 import { slugify } from "@/lib/warmup";
 
@@ -10,7 +11,9 @@ const PROGRAM_FILES = [
   "greyskull_lp.json"
 ];
 
-const programsDirectory = path.join(process.cwd(), "programs");
+const currentFilePath = fileURLToPath(import.meta.url);
+const currentDirectory = path.dirname(currentFilePath);
+const programsDirectory = path.resolve(currentDirectory, "../../programs");
 
 export async function getPrograms() {
   const programs = await Promise.all(

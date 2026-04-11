@@ -6,6 +6,8 @@ import { SettingsIcon } from "@/components/settings-icon";
 import { getPrograms } from "@/lib/programs";
 import { buildIndexableMetadata } from "@/lib/seo";
 
+export const dynamic = "force-static";
+
 export function generateMetadata() {
   return buildIndexableMetadata({
     title: "Warmup Set Calculator and Barbell Plate Calculator",
@@ -32,6 +34,7 @@ export default async function HomePage() {
             key={program.slug}
             className="button-link ui-btn ui-corner-all"
             href={`/program/${program.slug}`}
+            prefetch={false}
           >
             <span className="lift-label">
               <ProgramIcon name={program.title} />
@@ -39,7 +42,7 @@ export default async function HomePage() {
             </span>
           </Link>
         ))}
-        <Link className="button-link ui-btn ui-corner-all" href="/settings">
+        <Link className="button-link ui-btn ui-corner-all" href="/settings" prefetch={false}>
           <span className="lift-label">
             <SettingsIcon className="lift-icon" />
             <span>Settings</span>

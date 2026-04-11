@@ -1,6 +1,8 @@
 import { getPrograms } from "@/lib/programs";
 import { absoluteUrl } from "@/lib/seo";
 
+export const dynamic = "force-static";
+
 export default async function sitemap() {
   const programs = await getPrograms();
   const entries = [

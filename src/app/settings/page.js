@@ -3,6 +3,8 @@ import { SettingsForm } from "@/components/settings-form";
 import { SettingsIcon } from "@/components/settings-icon";
 import { buildNoIndexMetadata } from "@/lib/seo";
 
+export const dynamic = "force-static";
+
 export function generateMetadata() {
   return buildNoIndexMetadata({
     title: "Settings",

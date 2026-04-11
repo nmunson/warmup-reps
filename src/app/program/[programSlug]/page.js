@@ -7,6 +7,9 @@ import { ProgramIcon } from "@/components/program-icon";
 import { getProgramBySlug, getPrograms } from "@/lib/programs";
 import { buildIndexableMetadata } from "@/lib/seo";
 
+export const dynamic = "force-static";
+export const dynamicParams = false;
+
 export async function generateStaticParams() {
   const programs = await getPrograms();
   return programs.map((program) => ({ programSlug: program.slug }));
@@ -48,6 +51,7 @@ export default async function ProgramPage({ params }) {
               key={exercise.slug}
               className="button-link ui-btn ui-corner-all"
               href={`/program/${program.slug}/exercise/${exercise.slug}`}
+              prefetch={false}
             >
               <span className="lift-label">
                 <LiftIcon name={exercise.name} />
@@ -58,7 +62,7 @@ export default async function ProgramPage({ params }) {
         </div>
         <hr />
         <p>
-          <Link className="button-link ui-btn ui-corner-all" href="/">
+          <Link className="button-link ui-btn ui-corner-all" href="/" prefetch={false}>
             Choose another program
           </Link>
         </p>

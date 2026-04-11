@@ -11,6 +11,8 @@ import {
   buildTwitter
 } from "@/lib/seo";
 
+export const dynamic = "force-static";
+
 export const metadata = {
   metadataBase: new URL(SITE_URL),
   title: {

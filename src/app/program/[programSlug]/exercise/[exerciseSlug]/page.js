@@ -6,6 +6,9 @@ import { Footer, PageChrome } from "@/components/page-chrome";
 import { getExercise, getPrograms } from "@/lib/programs";
 import { buildIndexableMetadata } from "@/lib/seo";
 
+export const dynamic = "force-static";
+export const dynamicParams = false;
+
 export async function generateStaticParams() {
   const programs = await getPrograms();
 
@@ -48,7 +51,11 @@ export default async function ExercisePage({ params }) {
     <PageChrome homeHref="/" footer={<Footer />}>
         <ExerciseCalculator exercise={exercise} />
         <p>
-          <Link className="button-link ui-btn ui-corner-all" href={`/program/${program.slug}`}>
+          <Link
+            className="button-link ui-btn ui-corner-all"
+            href={`/program/${program.slug}`}
+            prefetch={false}
+          >
             Choose another exercise
           </Link>
         </p>
